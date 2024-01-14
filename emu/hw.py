@@ -1,7 +1,7 @@
 class Register():
 
     def __init__(self):
-        self.value = 0 
+        self.value: int = 0 
 
     def getValue(self) -> int:
         return self.value
@@ -13,11 +13,10 @@ class Register():
 class Memory():
     
     def __init__(self, size: int):
-        self.memory = [0] * size
+        self.memory: [int] = [0] * size
 
     def getValue(self, addr: int) -> int:
         return self.memory[addr]
 
     def setValue(self, addr: int, value: int):
         pass
-
