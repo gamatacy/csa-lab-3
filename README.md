@@ -19,17 +19,17 @@
 ```
 |Bit | Description |
 |----|-------------|
-| 0  | DR -> LALU  |
-| 1  | SP -> LALU  |
-| 2  | PS -> LALU  |
+| 0  | DR -> RALU  |
+| 1  | SP -> RALU  |
+| 2  | PS -> RALU  |
 | 3  |             |
-| 4  | AC -> RALU  |
-| 5  | BR -> RALU  |
-| 6  | IAR -> RALU |
-| 7  | IR -> RALU  |
+| 4  | AC -> LALU  |
+| 5  | BR -> LALU  |
+| 6  | IAR -> LALU |
+| 7  | IR -> LALU  |
 | 8  | ~RALU       |
 | 9  | ~LALU       |
-| 10 | R + L       |
+| 10 | L + R       |
 | 11 | AND         |
 | 12 | SHLT        |
 | 13 | SHRT        |
@@ -42,10 +42,10 @@
 | 20 | ALU -> AC   |
 | 21 | ALU -> BR   |
 | 22 | ALU -> IAR  |
-| 23 |             |
-| 24 |             |
-| 25 |             |
-| 26 |             |
+| 23 | MEM -> DR   |
+| 24 | DR -> MEM   |
+| 25 | IO -> DR    |
+| 26 | DR -> IO    |
 | 27 |             |
 | 28 |             |
 | 29 |             |
@@ -58,17 +58,17 @@
 ```
 |Bit | Description |
 |----|-------------|
-| 0  | DR -> LALU  |
-| 1  | SP -> LALU  |
-| 2  | PS -> LALU  |
+| 0  | DR -> RALU  |
+| 1  | SP -> RALU  |
+| 2  | PS -> RALU  |
 | 3  |             |
-| 4  | AC -> RALU  |
-| 5  | BR -> RALU  |
-| 6  | IAR -> RALU |
-| 7  | IR -> RALU  |
+| 4  | AC -> LALU  |
+| 5  | BR -> LALU  |
+| 6  | IAR -> LALU |
+| 7  | IR -> LALU  |
 | 8  | ~RALU       |
 | 9  | ~LALU       |
-| 10 | R + L       |
+| 10 | L + R       |
 | 11 | AND         |
 | 12 | SHLT        |
 | 13 | SHRT        |
