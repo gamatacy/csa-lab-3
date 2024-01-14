@@ -1,6 +1,8 @@
 from hw import *
 from alu import ALU
 
+MEMORY_SIZE = 256
+
 class DataPath:
 
     def __init__(self):
@@ -9,8 +11,8 @@ class DataPath:
         self.alu: ALU = ALU()
 
         #mem
-        self.instructionMemoryL: Memory = Memory(16)
-        self.dataMemory: Memory = Memory(16)
+        self.instructionMemory: Memory = Memory(MEMORY_SIZE)
+        self.dataMemory: Memory = Memory(MEMORY_SIZE)
 
         #regs
         #lalu

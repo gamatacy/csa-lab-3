@@ -1,6 +1,7 @@
 from hw import Memory
 from DataPath import DataPath
 from instruction import Instruction
+import sys
 
 class ControlUnit:
 
@@ -9,6 +10,11 @@ class ControlUnit:
         mcodes: [int] = instruction.value
 
         for mcode in mcodes:
+
+            #hlt
+            if ( mcode & 0x40000000 ):
+                sys.exit()
+
             if ( mcode & 0x80000000 ):
                 jmpAddress: int | None = self.executeControlMicroCode(dataPath, mcode)
 
@@ -29,6 +35,11 @@ class ControlUnit:
             if ( mcode & ( 0x10000 << offset ) ):
                 dataPath.mappedRegister[offset].setValue(dataPath.alu.getOutput())
 
+        if ( mcode & 0x7800000 ):
+            dataPath.AR.setValue(
+                dataPath.IR.getValue() & 0xFF
+            )
+
         if ( mcode & 0x800000 ):
             dataPath.DR.setValue(
                 dataPath.dataMemory.getValue(
@@ -44,6 +55,7 @@ class ControlUnit:
             pass
         elif ( mcode & 0x4000000 ):
             pass
+            
 
 
     def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> int | None:
