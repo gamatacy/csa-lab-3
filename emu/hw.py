@@ -19,4 +19,4 @@ class Memory():
         return self.memory[addr]
 
     def setValue(self, addr: int, value: int):
-        pass
+        self.memory[addr] = value

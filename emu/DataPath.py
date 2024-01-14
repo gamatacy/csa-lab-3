@@ -9,8 +9,8 @@ class DataPath:
         self.alu: ALU = ALU()
 
         #mem
-        self.instructionMemoryL: Memory = Memory(2048)
-        self.dataMemory: Memory = Memory(2048)
+        self.instructionMemoryL: Memory = Memory(16)
+        self.dataMemory: Memory = Memory(16)
 
         #regs
         #lalu
@@ -36,3 +36,25 @@ class DataPath:
                 self.IAR
         ]
         
+    def log_registers(self):
+
+        print("======================")
+
+        print("\nLEFT REGS:")
+        print(f"   AC: {self.AC.getValue()}")
+        print(f"   BR: {self.BR.getValue()}")
+        print(f"   IR: {self.IR.getValue()}")
+        print(f"   IAR: {self.IAR.getValue()}")
+
+        print("\nRIGHT REGS:")
+        print(f"   DR: {self.DR.getValue()}")
+        print(f"   PS: {self.PS.getValue()}")
+        print(f"   SP: {self.SP.getValue()}")
+        print(f"   AR: {self.AR.getValue()}")
+
+        print("\nDataMemory")
+        for i in range(3):
+            print(f"   ADDR: {i} VALUE: ", end="")
+            print(f"{self.dataMemory.getValue(i)}")
+
+

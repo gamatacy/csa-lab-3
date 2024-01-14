@@ -1,6 +1,5 @@
 from hw import Memory
 from DataPath import DataPath
-from MicroCode import MicroCode
 from instruction import Instruction
 
 class ControlUnit:
@@ -19,6 +18,8 @@ class ControlUnit:
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
 
+            dataPath.log_registers()
+
 
     def executeOperationMicroCode(self, dataPath: DataPath, mcode: int):
         self.executeMicroCode(dataPath, mcode)
@@ -31,7 +32,7 @@ class ControlUnit:
         if ( mcode & 0x800000 ):
             dataPath.DR.setValue(
                 dataPath.dataMemory.getValue(
-                    dataPath.AR
+                    dataPath.AR.getValue()
                 )
             )
         elif ( mcode & 0x1000000 ):
@@ -61,25 +62,25 @@ class ControlUnit:
         
         return None
 
-    def executeMicroCode(dataPath: DataPath, mcode: int):
+    def executeMicroCode(self, dataPath: DataPath, mcode: int):
         
         #set right alu operand
         if   ( mcode & 0x1):
-            dataPath.alu.setRightOperand(dataPath.DR)
+            dataPath.alu.setRightOperand(dataPath.DR.getValue())
         elif ( mcode & 0x2):
-            dataPath.alu.setRightOperand(dataPath.SP)
+            dataPath.alu.setRightOperand(dataPath.SP.getValue())
         elif ( mcode & 0x4):
-            dataPath.alu.setRightOperand(dataPath.PS)
+            dataPath.alu.setRightOperand(dataPath.PS.getValue())
 
         #set left alu operand
         if   ( mcode & 0x10):
-            dataPath.alu.setLeftOperand(dataPath.AC)
+            dataPath.alu.setLeftOperand(dataPath.AC.getValue())
         elif ( mcode & 0x20):
-            dataPath.alu.setLeftOperand(dataPath.BR)
+            dataPath.alu.setLeftOperand(dataPath.BR.getValue())
         elif ( mcode & 0x40):
-            dataPath.alu.setLeftOperand(dataPath.IAR)
+            dataPath.alu.setLeftOperand(dataPath.IAR.getValue())
         elif ( mcode & 0x80):
-            dataPath.alu.setLeftOperand(dataPath.IR)   
+            dataPath.alu.setLeftOperand(dataPath.IR.getValue())   
 
         #inverse operands
         if   ( mcode & 0x100 ):
