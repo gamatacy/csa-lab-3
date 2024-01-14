@@ -6,5 +6,10 @@ class Instruction(Enum):
         0x00100401,
         0x00100411
     ]
+    HLT = [
+        0x40000000
+    ]
 
-    
+class OpCode(Enum):
+    LD = 0
+    HLT = 1
