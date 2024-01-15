@@ -7,18 +7,18 @@ def run():
     dataPath = DataPath()
     controlUnit = ControlUnit()
 
-    dataPath.dataMemory.setValue(1,OpCode.HLT)
+    dataPath.instructionMemory.setValue(0, 1)
+    dataPath.instructionMemory.setValue(1, 2)
 
-    print(
-        OpCode(dataPath.dataMemory.getValue(1)).name
-    )
-
-    # while (True):
-    #     controlUnit.executeInstruction(
-    #         dataPath.instructionMemory.getValue(
-    #             dataPath.IAR.getValue()
-    #         )
-    #     )
-
-        
+    dataPath.dataMemory.setValue(0, 1337)
     
+    while True:
+        controlUnit.executeInstruction(
+            dataPath,
+            OpCodes[
+                dataPath.instructionMemory.getValue(
+                dataPath.IAR.getValue()
+            )
+            ]
+        )
+

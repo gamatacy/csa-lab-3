@@ -9,6 +9,8 @@ class Register():
     def setValue(self, value: int):
         self.value = value
 
+    def inc(self):
+        self.value += 1
 
 class Memory():
     

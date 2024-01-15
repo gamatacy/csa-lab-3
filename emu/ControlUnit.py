@@ -1,4 +1,5 @@
 from hw import Memory
+from typing import Optional
 from DataPath import DataPath
 from instruction import Instruction
 import sys
@@ -8,6 +9,8 @@ class ControlUnit:
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
         
         mcodes: [int] = instruction.value
+
+        
 
         for mcode in mcodes:
 
@@ -24,6 +27,7 @@ class ControlUnit:
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
 
+            dataPath.IAR.inc()
             dataPath.log_registers()
 
 
@@ -58,7 +62,7 @@ class ControlUnit:
             
 
 
-    def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> int | None:
+    def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> Optional[int]:
         self.executeMicroCode(dataPath, mcode)
 
         flagsMask:  int = mcode & 0xF0000 >> 16
