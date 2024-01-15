@@ -6,19 +6,11 @@ from instruction import *
 def run():
     dataPath = DataPath()
     controlUnit = ControlUnit()
-
-    dataPath.instructionMemory.setValue(0, 1)
-    dataPath.instructionMemory.setValue(1, 2)
-
-    dataPath.dataMemory.setValue(0, 1337)
     
-    while True:
-        controlUnit.executeInstruction(
-            dataPath,
-            OpCodes[
-                dataPath.instructionMemory.getValue(
-                dataPath.IAR.getValue()
-            )
-            ]
-        )
+    controlUnit.runclk(dataPath)
+
+
+def loadInstructions(memory: [int], rawInstructions: [int]):
+    for addr, instruction in enumerate(rawInstructions):
+        memory[addr] = instruction
 

@@ -1,22 +1,39 @@
 from hw import Memory
 from typing import Optional
 from DataPath import DataPath
-from instruction import Instruction
+from instruction import *
 import sys
 
 class ControlUnit:
+
+    def __init__(self):
+        self.tick = 0
+
+    def runclk(self, dataPath: DataPath):
+        instruction: Instruction
+        rawInstruction: int
+
+        while True:
+
+            rawInstruction = dataPath.instructionMemory.getValue(
+                dataPath.IAR.getValue()
+            )
+
+            instruction = OpCodes[ ( rawInstruction >> 24 ) ]
+
+            self.executeInstruction(dataPath, instruction)
+            dataPath.IAR.inc()
+
 
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
         
         mcodes: [int] = instruction.value
 
-        
+        if instruction is Instruction.HLT:
+            print("HALT")
+            sys.exit()
 
         for mcode in mcodes:
-
-            #hlt
-            if ( mcode & 0x40000000 ):
-                sys.exit()
 
             if ( mcode & 0x80000000 ):
                 jmpAddress: int | None = self.executeControlMicroCode(dataPath, mcode)
@@ -27,8 +44,7 @@ class ControlUnit:
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
 
-            dataPath.IAR.inc()
-            dataPath.log_registers()
+            self.tick += 1
 
 
     def executeOperationMicroCode(self, dataPath: DataPath, mcode: int):
@@ -112,13 +128,17 @@ class ControlUnit:
             dataPath.alu.conjuction()
 
         #increment 
-        if   ( mcode & 0x4000):
+        if   ( mcode & 0x4000 ):
             dataPath.alu.inc()
 
+        #only 2 lower bytes 
+        if   ( mcode & 0x8000 ):
+            dataPath.alu._2lb()
+
         #shift
-        if   ( mcode & 0x1000):
+        if   ( mcode & 0x1000 ):
             dataPath.alu.shlt()
-        elif ( mcode & 0x2000):
+        elif ( mcode & 0x2000 ):
             dataPath.alu.shrt()
 
     

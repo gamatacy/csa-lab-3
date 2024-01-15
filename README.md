@@ -34,7 +34,7 @@
 | 12 | SHLT        |
 | 13 | SHRT        |
 | 14 | INC         |
-| 15 |             |
+| 15 | 2LB         |
 | 16 | ALU -> DR   |
 | 17 | ALU -> SP   |
 | 18 | ALU -> PS   |
@@ -73,7 +73,7 @@
 | 12 | SHLT        |
 | 13 | SHRT        |
 | 14 | INC         |
-| 15 |             |
+| 15 | 2LB         |
 | 16 | CMP Z       |
 | 17 | CMP N       |
 | 18 | CMP C       |
