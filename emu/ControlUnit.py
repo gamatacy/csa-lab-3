@@ -22,7 +22,7 @@ class ControlUnit:
             instruction = OpCodes[ ( rawInstruction >> 24 ) ]
 
             self.executeInstruction(dataPath, instruction)
-            dataPath.IAR.inc()
+            # dataPath.IAR.inc()
 
 
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
@@ -95,7 +95,10 @@ class ControlUnit:
         return None
 
     def executeMicroCode(self, dataPath: DataPath, mcode: int):
-        
+        #clear alu
+        dataPath.alu.setLeftOperand(0)
+        dataPath.alu.setRightOperand(0)
+
         #set right alu operand
         if   ( mcode & 0x1):
             dataPath.alu.setRightOperand(dataPath.DR.getValue())
