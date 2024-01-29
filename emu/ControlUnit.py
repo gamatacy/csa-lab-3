@@ -19,31 +19,39 @@ class ControlUnit:
                 dataPath.IAR.getValue()
             )
 
+            dataPath.IR.setValue(rawInstruction)
+
             instruction = OpCodes[ ( rawInstruction >> 24 ) ]
+            print()
+            print(instruction)
+            print()
 
             self.executeInstruction(dataPath, instruction)
-            # dataPath.IAR.inc()
 
 
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
-        
-        mcodes: [int] = instruction.value
+
+        if instruction is Instruction.NOP:
+            print("NOP")
+            sys.exit()
 
         if instruction is Instruction.HLT:
             print("HALT")
             sys.exit()
 
+        mcodes: [int] = instruction.value
+
         for mcode in mcodes:
 
             if ( mcode & 0x80000000 ):
-                jmpAddress: int | None = self.executeControlMicroCode(dataPath, mcode)
-
-                if (type(jmpAddress) is not None):
-                    pass
-
+                if self.executeControlMicroCode(dataPath, mcode):
+                    self.tick += 1
+                    break
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
-
+            
+            print(f"TICK: {self.tick}")
+            dataPath.log_registers()
             self.tick += 1
 
 
@@ -55,9 +63,9 @@ class ControlUnit:
             if ( mcode & ( 0x10000 << offset ) ):
                 dataPath.mappedRegister[offset].setValue(dataPath.alu.getOutput())
 
-        if ( mcode & 0x7800000 ):
+        if ( mcode & 0x7800000 and (dataPath.IR.getValue() & 0x1FFFF) ):
             dataPath.AR.setValue(
-                dataPath.IR.getValue() & 0xFF
+                dataPath.IR.getValue() & 0xFFFF
             )
 
         if ( mcode & 0x800000 ):
@@ -72,27 +80,36 @@ class ControlUnit:
                 dataPath.DR.getValue()
             )
         elif ( mcode & 0x2000000 ):
-            pass
+            dataPath.DR.setValue(
+                dataPath.readBuffer(dataPath.AR.getValue())
+            )
         elif ( mcode & 0x4000000 ):
-            pass
+            dataPath.writeBuffer(dataPath.AR.getValue(),
+                dataPath.AC.getValue()
+            )
             
 
 
-    def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> Optional[int]:
+    def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> bool:
         self.executeMicroCode(dataPath, mcode)
 
-        flagsMask:  int = mcode & 0xF0000 >> 16
-        jmpAddress: int = mcode & 0xFF00000 >> 20
+        flagsMask:  int = (mcode & 0xF0000) >> 16
 
-        aluFlags: int = dataPath.alu.getZ()
-        aluFlags += (dataPath.alu.getN() << 1)
-        aluFlags += (dataPath.alu.getC() << 2)
-        aluFlags += (dataPath.alu.getV() << 3)
+        aluFlags: int = dataPath.getAcZ()
+        aluFlags += (dataPath.getAcN() << 1)
+        # aluFlags += (dataPath.alu.getC() << 2)
+        # aluFlags += (dataPath.alu.getV() << 3)
 
-        if ( flagsMask == aluFlags ):
-            return jmpAddress
+        if ( flagsMask & aluFlags ):
+            
+            dataPath.IAR.setValue(
+                dataPath.IR.getValue() & 0x1FFFF
+            )
+            dataPath.log_registers()
+            return True
         
-        return None
+        return False
+    
 
     def executeMicroCode(self, dataPath: DataPath, mcode: int):
         #clear alu
@@ -118,10 +135,10 @@ class ControlUnit:
             dataPath.alu.setLeftOperand(dataPath.IR.getValue())   
 
         #inverse operands
-        if   ( mcode & 0x100 ):
+        if   ( mcode & 0x200 ):
             dataPath.alu.invLeftOperand()
         
-        if   ( mcode & 0x200 ):
+        if   ( mcode & 0x100 ):
             dataPath.alu.invRightOperand()
 
         #sum/and

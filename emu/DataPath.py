@@ -24,7 +24,7 @@ class DataPath:
         #ralu
         self.DR: Register = Register()
         self.PS: Register = Register()
-        self.SP: Register = Register()
+        self.SP: Register = Register(len(self.dataMemory.memory))
 
         self.AR: Register = Register()
 
@@ -37,26 +37,44 @@ class DataPath:
                 self.BR,
                 self.IAR
         ]
-        
+
+        self.buffers = {
+            0x735 : ['a','b','c']
+        }
+
+    def getAcZ(self) -> int:
+        return 1 if self.AC.getValue() == 0 else 0
+    
+    def getAcN(self) -> int:
+        return 1 if self.AC.getValue() < 0 else 0 
+    
+    def readBuffer(self, port: int) -> int:
+        return ord(self.buffers[port].pop())
+    
+    def writeBuffer(self, port: int, value: int):
+        return self.buffers[port].append(chr(value))
+
     def log_registers(self):
 
         print("======================")
 
         print("\nLEFT REGS:")
-        print(f"   AC: {self.AC.getValue()}")
-        print(f"   BR: {self.BR.getValue()}")
-        print(f"   IR: {self.IR.getValue()}")
-        print(f"   IAR: {self.IAR.getValue()}")
+        print(f"   AC: {hex(self.AC.getValue())}")
+        print(f"   BR: {hex(self.BR.getValue())}")
+        print(f"   IR: {hex(self.IR.getValue())}")
+        print(f"   IAR: {hex(self.IAR.getValue())}")
 
         print("\nRIGHT REGS:")
-        print(f"   DR: {self.DR.getValue()}")
-        print(f"   PS: {self.PS.getValue()}")
-        print(f"   SP: {self.SP.getValue()}")
-        print(f"   AR: {self.AR.getValue()}")
+        print(f"   DR: {hex(self.DR.getValue())}")
+        print(f"   PS: {hex(self.PS.getValue())}")
+        print(f"   SP: {hex(self.SP.getValue())}")
+        print(f"   AR: {hex(self.AR.getValue())}")
 
-        print("\nDataMemory")
-        for i in range(3):
-            print(f"   ADDR: {i} VALUE: ", end="")
-            print(f"{self.dataMemory.getValue(i)}")
+        print("\BUFFER:")
+        print(self.buffers[0x735])
+        # print("\nDataMemory")
+        # for i in range(len(self.dataMemory.memory)):
+        #     print(f"   ADDR: {i} VALUE: ", end="")
+        #     print(f"{hex(self.dataMemory.getValue(i))}")
 
 
