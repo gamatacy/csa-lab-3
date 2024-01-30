@@ -2,6 +2,38 @@
 
 ## lisp | acc | harv | mc | tick | struct | stream | port | cstr | prob5 | 8bit
 
+## Instruction set
+
+| Byte | Description   |
+|------|---------------|
+| 0    | Operand       |
+| 1    | Operand       |
+| 2    | Operand       |
+| 3    | Operand       |
+| 4    | Operand         (Only 1 lower bit)  |
+| 5    |               |
+| 6    |               |
+| 7    | OpCode        |
+
+
+| Opcode | Instruction | Operand |
+|--------|-------------|---------|
+| 0x0    | NOP         |         |         
+| 0x1    | LD          |   ADDR  |
+| 0x2    | HLT         |         |
+| 0x3    | PUSH        |         |
+| 0x4    | POP         |         |
+| 0x5    | ST          |   ADDR  |
+| 0x6    | JMP         |   ADDR  |
+| 0x7    | ROL         |         |
+| 0x8    | ROR         |         |
+| 0x9    | ADD         |   ADDR  |
+| 0xA    | SUB         |   ADDR  |
+| 0xB    | JZ          |         |
+| 0xC    | JN          |         |
+| 0xD    | JC          |         |
+| 0xE    | LDBF        |   PORT  |
+| 0xF    | STBF        |   PORT  |
 
 
 ## Microcode 
