@@ -16,24 +16,24 @@
 | 7    | OpCode        |
 
 
-| Opcode | Instruction | Operand |
-|--------|-------------|---------|
-| 0x0    | NOP         |         |         
-| 0x1    | LD          |   ADDR  |
-| 0x2    | HLT         |         |
-| 0x3    | PUSH        |         |
-| 0x4    | POP         |         |
-| 0x5    | ST          |   ADDR  |
-| 0x6    | JMP         |   ADDR  |
-| 0x7    | ROL         |         |
-| 0x8    | ROR         |         |
-| 0x9    | ADD         |   ADDR  |
-| 0xA    | SUB         |   ADDR  |
-| 0xB    | JZ          |         |
-| 0xC    | JN          |         |
-| 0xD    | JC          |         |
-| 0xE    | LDBF        |   PORT  |
-| 0xF    | STBF        |   PORT  |
+| Opcode | Instruction | Operand | Description |
+|--------|-------------|---------|-------------|
+| 0x0    | NOP         |         |  Nothing    |
+| 0x1    | LD          |   ADDR  |  MEM[ADDR] -> Acc|
+| 0x2    | HLT         |         |  Stop clk|
+| 0x3    | PUSH        |         |  Acc -> SP+1|
+| 0x4    | POP         |         |  SP -> Acc, SP-1|
+| 0x5    | ST          |   ADDR  |  Acc -> MEM[ADDR] |
+| 0x6    | JMP         |   ADDR  |  ADDR -> IAR |
+| 0x7    | ROL         |         |  Acc << 1|
+| 0x8    | ROR         |         |  Acc >> 1|
+| 0x9    | ADD         |   ADDR  |  Acc + MEM[ADDR]|
+| 0xA    | SUB         |   ADDR  |  Acc - MEM[ADDR]|
+| 0xB    | JZ          |         |  IF FLAG.Z, IAR+1|
+| 0xC    | JN          |         |  IF FLAG.N, IAR+1|
+| 0xD    | JC          |         |  IF FLAG.C, IAR+1|
+| 0xE    | LDBF        |   PORT  |  IO[PORT] -> Acc |
+| 0xF    | STBF        |   PORT  |  Acc -> IO[PORT] |
 
 
 ## Microcode 
