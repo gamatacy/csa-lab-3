@@ -2,6 +2,67 @@
 
 ## lisp | acc | harv | mc | tick | struct | stream | port | cstr | prob5 | 8bit
 
+## Lisp syntax
+
+```lisp
+<program>               := <expressions> EOF
+
+<expressions>           := | <expressions> <expression>
+
+<expression>            := <open-bracket> <bracketed-expression> <close-bracket> | <varname> | <literal>
+
+<bracketed-expression>  :=  <function-definition> 
+                            | <function-call> 
+                            | <if-condition> 
+                            | <binary-operation> 
+                            | <unary-operator-expression>
+                            | <assignment> 
+                            | <loop-expression>
+                            | <allocation>
+
+<function-call>         := <varname> <arguments>
+
+<arguments>             := | <arguments> <expression>
+
+<function-definition>   := defun <varname> <open-bracket> <parameters> <close-bracket> <expressions>
+
+<parameters>            := | <parameters> <varname>
+
+<assignment>            := let <varname> <expr>
+
+<allocation>            := alloc <number-literal>
+
+<if-condition>          := if <condition-expression> <true-expression> <false-expression>
+
+<loop-expression>       := loop <condition-expression> <expressions> 
+
+<binary-operator-expression> := <binary-operator> <expression> <expression>
+
+<unary-operator-expression> := <unary-operator> <expression>
+
+<binary-operator>       := store | mod | and | or | + | - | = | < | >
+
+<unary-operator>        := not | put | load
+
+<nullary-operator>      := get
+
+<condition-expression>  := <expression>
+
+<true-expression>       := <expression>
+
+<false-expression>      := <expression>
+
+<literal>               := <number-literal> | <string-literal> | <character-literal>
+
+<number-literal>        := [0-9]+
+
+<string-literal>        := "\w*"
+
+<character-literal>     := '.'
+
+<varname>               := [a-zA-Z\.]\w*
+```
+
 ## Instruction set
 
 | Byte | Description   |
