@@ -10,14 +10,16 @@ TOKEN_NUMBER = "NUMBER"
 TOKEN_STRING = "STRING"
 TOKEN_OPERATOR = "OPERATOR"
 TOKEN_IDENTIFIER = "IDENTIFIER"
+TOKEN_START = "START"
 
 TOKENS = {
+    TOKEN_START: r"\b_start_\b",
     TOKEN_LEFT_PARENTHESIS: r"\(",
     TOKEN_RIGHT_PARENTHESIS: r"\)",
-    TOKEN_KEYWORD: r"\b(defun|if|then|else|let|print)\b",
+    TOKEN_KEYWORD: r"\b(defun|call|ret|if|let|save|while)\b",
     TOKEN_NUMBER: r"\d+",
     TOKEN_STRING: r'"(?:[^"\\]|\\.)*"',
-    TOKEN_OPERATOR: r"(<=|>=|<|>|=|\*|\+|-|/)",
+    TOKEN_OPERATOR: r"(<=|>=|<|>|=|<<|>>|\*|\+|-|/)",
     TOKEN_IDENTIFIER: r"\b[a-zA-Z][a-zA-Z0-9]*\b"
 }
 

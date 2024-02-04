@@ -36,11 +36,7 @@
 
 <loop-expression>       := loop <condition-expression> <expressions> 
 
-<binary-operator-expression> := <binary-operator> <expression> <expression>
-
-<unary-operator-expression> := <unary-operator> <expression>
-
-<binary-operator>       := store | mod | and | or | + | - | = | < | >
+<math-operator>       := <= | >= | < | > | = | << | >> | + | - 
 
 <unary-operator>        := not | put | load
 
@@ -95,6 +91,8 @@
 | 0xD    | JC          |         |  IF FLAG.C, IAR+1|
 | 0xE    | LDBF        |   PORT  |  IO[PORT] -> Acc |
 | 0xF    | STBF        |   PORT  |  Acc -> IO[PORT] |
+| 0x10   | CALL        |   ADDR  |  IAR -> SP, ADDR -> IAR |
+| 0x20   | RET         |         |  SP -> IAR |
 
 
 ## Microcode 

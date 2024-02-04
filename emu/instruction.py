@@ -5,7 +5,11 @@ from enum import Enum
 AC_TO_MEM = 0x01010410
 AC_TO_DR = 0x00010410
 DR_TO_AC = 0x00100401
+CONST_TO_AC = 0x00108480
 ADDR_TO_AR = 0x00088480
+ADDR_TO_AC = 0x00108480
+ADDR_TO_IAR = 0x00408480
+IAR_TO_AC = 0x00400440
 SP_TO_AR = 0x00080402
 MEM_TO_DR = 0x00800000
 INC_IAR = 0x00404440
@@ -34,17 +38,20 @@ class Instruction(Enum):
         INC_IAR
     )
 
+    LDC = (
+        CONST_TO_AC,
+        INC_IAR
+    )
+
     ST = (
         ADDR_TO_AR,
         AC_TO_MEM,
         INC_IAR
     )
-
+    
     JMP = (
-        ADDR_TO_AR,
-        MEM_TO_DR,
-        0x00400401,
-        INC_IAR 
+        INC_IAR,
+        ADDR_TO_IAR
     )
 
     ROL = (
@@ -104,13 +111,25 @@ class Instruction(Enum):
         0x00000000
     )
 
+    CALL = (
+        INC_IAR,
+        IAR_TO_AC,
+        *PUSH,
+        *JMP
+    )
+
+    RET = (
+        *POP,
+        *JMP
+    )
+
     HLT = (
         0x40000000
     )
 
 OpCodes = {
-    0x0 : Instruction.NOP,
-    0x1 : Instruction.LD,
+    0x0 : Instruction.NOP, 
+    0x1 : Instruction.LD,  
     0x2 : Instruction.HLT,
     0x3 : Instruction.PUSH,
     0x4 : Instruction.POP,
@@ -124,5 +143,8 @@ OpCodes = {
     0xC : Instruction.JN,
     0xD : Instruction.JC,
     0xE : Instruction.LDBF,
-    0xF : Instruction.STBF
+    0xF : Instruction.STBF,
+    0x10 : Instruction.CALL,
+    0x20 : Instruction.RET,
+    0x30 : Instruction.LDC
 }
