@@ -1,0 +1,36 @@
+data:
+  a:
+    addr: 0
+    value: 0
+  b:
+    addr: 1
+    value: 0
+  first:
+    addr: 2
+    value: first
+  second:
+    addr: 7
+    value: second
+instructions:
+- instruction: LD
+  op: 0
+- instruction: ADD
+  op: 1
+- instruction: ST
+  op: 0
+- instruction: LD
+  op: 0
+- instruction: RET
+  op: 0
+- instruction: LD
+  op: 2
+- instruction: ST
+  op: 0
+- instruction: LD
+  op: 7
+- instruction: ST
+  op: 1
+- instruction: CALL
+  op: 0
+- instruction: HLT
+  op: 0

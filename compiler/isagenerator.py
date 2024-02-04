@@ -18,10 +18,8 @@ class FUNction():
         self.params = params 
         self.addr = addr
 
-# { fname : [ [fname_param1, fname_param2, ...] , calladdr] }
 functions: {str : FUNction } = {}
 instructions: [HighLevelInstruction] = []
-# { varname : [value, addr]}
 data: {str : HighLevelData} = {}
 _data_pointer = 0
 _start_point = 0
@@ -30,8 +28,13 @@ def get_start_point() -> int:
     global _start_point
     return _start_point
 
-def generate_function(name: str, params: [str], code: [str]):
-    return
+def add_halt():
+    instructions.append(
+        HighLevelInstruction(
+            Instruction.HLT,
+            0
+        )
+    )
 
 def generator(tokens: [str]):
     global _data_pointer
@@ -103,7 +106,23 @@ def generator(tokens: [str]):
                     _data_pointer += 1
                 i += 1
             case 'save':
-                generator(tokens[i+2])
+                if len(tokens[i+2]) == 1 and isinstance(tokens[i+2][0], int):
+                    instructions.append(
+                        HighLevelInstruction(
+                            Instruction.LDC,
+                            tokens[i+2][0]
+                        )
+                    )
+                elif len(tokens[i+2]) == 1 and tokens[i+2][0] in data:
+                    instructions.append(
+                        HighLevelInstruction(
+                            Instruction.LD,
+                            data[tokens[i+2][0]].addr
+                        )
+                    )
+                else: 
+                    generator(tokens[i+2])
+
                 instructions.append(
                     HighLevelInstruction(
                         Instruction.ST,
@@ -114,8 +133,8 @@ def generator(tokens: [str]):
                 break
             case 'while':
                 condition = tokens[i+1][0]
-                variable = tokens[i+1][0]
-                value = tokens[i+1][0]
+                variable = tokens[i+1][1]
+                value = tokens[i+1][2]
                 _start_addr = len(instructions)
                 generator(tokens[i+3])
 
@@ -172,14 +191,16 @@ def generator(tokens: [str]):
                         )
 
                         instructions.append(
-                            Instruction.JMP,
-                            _start_addr
+                            HighLevelInstruction(
+                                Instruction.JMP,
+                                _start_addr
+                            )
                         )
                 i += 3
             case 'if':
                 condition = tokens[i+1][0]
-                variable = tokens[i+1][0]
-                value = tokens[i+1][0]
+                variable = tokens[i+1][1]
+                value = tokens[i+1][2]
                 
                 instructions.append(
                     HighLevelInstruction(
@@ -210,6 +231,8 @@ def generator(tokens: [str]):
                     )
                 )
 
+            
+
                 match condition:
                     case '=':
                 
@@ -221,8 +244,10 @@ def generator(tokens: [str]):
                         )
 
                         instructions.append(
-                            Instruction.JMP,
-                            _start_addr
+                            HighLevelInstruction(
+                                Instruction.JMP,
+                                0
+                            )
                         )
 
                     case '<':
@@ -235,13 +260,14 @@ def generator(tokens: [str]):
 
                         instructions.append(
                             Instruction.JMP,
-                            _start_addr
+                            0
                         )
 
-                _start_addr = len(instructions)
-                generator(tokens[i+3])
-                instructions[_start_addr - 1].op = len(instructions)
+                _jmp_addr = len(instructions)
+                generator(tokens[i+2])
+                instructions[ len(instructions) - (len(instructions) - _jmp_addr) - 1].op = len(instructions)
                 i += 3
+                break
             case _:
                 match tokens[i]:
                     case "+":
