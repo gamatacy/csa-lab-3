@@ -44,7 +44,6 @@ def generator(tokens: [str]):
         match tokens[i]:
             case '_start_':
                 _start_point = len(instructions)
-                print(f"START {_start_point}")
             case 'defun':
                 fname = tokens[i+1] 
                 params = tokens[i+2]
@@ -97,8 +96,48 @@ def generator(tokens: [str]):
                     )
                 )
                 i += 1
+            case 'read':
+                instructions.append(
+                        HighLevelInstruction(
+                            Instruction.LDBF,
+                            tokens[i+1][1]
+                        )
+                    )
+                instructions.append(
+                        HighLevelInstruction(
+                            Instruction.ST,
+                            data[tokens[i+1][0]].addr
+                        )
+                    )
+            case 'write':
+                if isinstance(tokens[i+1][0], int):
+                    instructions.append(
+                        HighLevelInstruction(
+                            Instruction.LDC,
+                            tokens[i+1][0]
+                        )
+                    )
+                elif tokens[i+1][0] in data:
+                    instructions.append(
+                        HighLevelInstruction(
+                            Instruction.LD,
+                            data[tokens[i+1][0]].addr
+                        )
+                    )
+                else:
+                    instructions.append(
+                        HighLevelInstruction(
+                            Instruction.LDC,
+                            0
+                        )
+                    )
+                instructions.append(
+                        HighLevelInstruction(
+                            Instruction.STBF,
+                            data[tokens[i+1][0]].addr
+                        )
+                    )
             case 'let':
-                print(tokens[i+1])
                 data[tokens[i+1]] = HighLevelData(tokens[i+1], _data_pointer)
                 if isinstance(tokens[i+1], str):
                     _data_pointer += len(tokens[i+1])

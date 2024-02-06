@@ -2,6 +2,13 @@
 
 ## lisp | acc | harv | mc | tick | struct | stream | port | cstr | prob5 | 8bit
 
+## How to
+
+Compile code
+```
+python -m compiler <input.lsp> <output.yaml>
+```
+
 ## Lisp syntax
 
 ```lisp
@@ -9,20 +16,18 @@
 
 <expressions>           := | <expressions> <expression>
 
-<expression>            := <open-bracket> <bracketed-expression> <close-bracket> | <varname> | <literal>
+<expression>            := <open-bracket> <bracketed-expression> <varname> | <literal> | <close-bracket>
 
 <bracketed-expression>  :=  <function-definition> 
                             | <function-call> 
                             | <if-condition> 
                             | <binary-operation> 
-                            | <unary-operator-expression>
                             | <assignment> 
                             | <loop-expression>
-                            | <allocation>
 
-<function-call>         := <varname> <arguments>
+<function-call>         := call <fname> <arguments>
 
-<arguments>             := | <arguments> <expression>
+<arguments>             := <var> | <expression>
 
 <function-definition>   := defun <varname> <open-bracket> <parameters> <close-bracket> <expressions>
 
@@ -30,31 +35,21 @@
 
 <assignment>            := let <varname> <expr>
 
-<allocation>            := alloc <number-literal>
-
-<if-condition>          := if <condition-expression> <true-expression> <false-expression>
+<if-condition>          := if <condition-expression> <true-expression>
 
 <loop-expression>       := loop <condition-expression> <expressions> 
 
-<math-operator>       := <= | >= | < | > | = | << | >> | + | - 
+<math-operator>         := < | = | << | >> | + | - 
 
-<unary-operator>        := not | put | load
-
-<nullary-operator>      := get
+<unary-operator>        := save
 
 <condition-expression>  := <expression>
 
-<true-expression>       := <expression>
-
-<false-expression>      := <expression>
-
-<literal>               := <number-literal> | <string-literal> | <character-literal>
+<literal>               := <number-literal> | <string-literal> 
 
 <number-literal>        := [0-9]+
 
 <string-literal>        := "\w*"
-
-<character-literal>     := '.'
 
 <varname>               := [a-zA-Z\.]\w*
 ```

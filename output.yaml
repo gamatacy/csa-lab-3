@@ -32,5 +32,13 @@ instructions:
   op: 1
 - instruction: CALL
   op: 0
+- instruction: LDBF
+  op: 735
+- instruction: ST
+  op: 7
+- instruction: LD
+  op: 2
+- instruction: STBF
+  op: 2
 - instruction: HLT
   op: 0

@@ -11,8 +11,6 @@ if __name__ == "__main__":
     code = input_file.read()
     code = parse_includes(code)
 
-    print(code)
-
     ast = lisp_to_ast(code)
     generator(ast)
     add_halt()
