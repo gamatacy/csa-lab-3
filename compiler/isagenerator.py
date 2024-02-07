@@ -149,22 +149,21 @@ def generator(tokens: [str]):
                 _data_pointer += tokens[i+2][0]
                 i += 1
             case 'save':
-                if len(tokens[i+2]) == 1 and isinstance(tokens[i+2][0], int):
+                print(tokens[i+2][0])
+                if  isinstance(tokens[i+2][0], int):
                     instructions.append(
                         HighLevelInstruction(
                             Instruction.LDC,
                             tokens[i+2][0]
                         )
                     )
-                elif len(tokens[i+2]) == 1 and tokens[i+2][0] in data:
+                elif tokens[i+2][0] in data:
                     instructions.append(
                         HighLevelInstruction(
                             Instruction.LD,
                             data[tokens[i+2][0]].addr
                         )
                     )
-                else: 
-                    generator(tokens[i+2])
 
                 instructions.append(
                     HighLevelInstruction(
@@ -314,6 +313,33 @@ def generator(tokens: [str]):
                 instructions[ len(instructions) - (len(instructions) - _jmp_addr) - 1].op = len(instructions)
                 i += 3
                 break
+            case 'setaddr':
+                variable = tokens[i+1][0]
+                instructions.append(
+                    HighLevelInstruction(Instruction.LD, data[tokens[i+1][1]].addr)
+                )
+                instructions.append(
+                    HighLevelInstruction(Instruction.ST, data[variable].addr)
+                )
+                i += 1
+            case 'incaddr':
+                variable = tokens[i+1]
+                instructions.append(
+                    HighLevelInstruction(Instruction.LDC, 1)
+                )
+                instructions.append(
+                    HighLevelInstruction(Instruction.ADD, data[tokens[i+1]].addr)
+                )
+                i += 1
+            case 'decaddr':
+                variable = tokens[i+1]
+                instructions.append(
+                    HighLevelInstruction(Instruction.LDC, 1)
+                )
+                instructions.append(
+                    HighLevelInstruction(Instruction.SUB, data[tokens[i+1][1]].addr)
+                )
+                i += 1
             case _:
                 match tokens[i]:
                     case "+":

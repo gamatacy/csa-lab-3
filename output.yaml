@@ -23,30 +23,30 @@ instructions:
   op: 735
 - instruction: ST
   op: 1
-- instruction: LDC
-  op: 0
-- instruction: ST
-  op: 326
 - instruction: LD
-  op: 1
-- instruction: SUB
-  op: 326
-- instruction: JZ
-  op: 0
-- instruction: JMP
-  op: 12
-- instruction: LDC
-  op: 0
-- instruction: ST
-  op: 2
-- instruction: LD
-  op: 0
+  op: 3
 - instruction: ST
   op: 1
 - instruction: LDC
   op: 1
 - instruction: ADD
+  op: 3
+- instruction: LDC
   op: 0
+- instruction: ST
+  op: 326
+- instruction: LD
+  op: 1
+- instruction: SUB
+  op: 326
+- instruction: JZ
+  op: 0
+- instruction: JMP
+  op: 16
+- instruction: LDC
+  op: 0
+- instruction: ST
+  op: 2
 - instruction: LDC
   op: 0
 - instruction: ST
@@ -60,11 +60,7 @@ instructions:
 - instruction: JMP
   op: 2
 - instruction: LD
-  op: 3
-- instruction: ST
   op: 0
-- instruction: LD
-  op: 3
 - instruction: RET
   op: 0
 - instruction: LD
@@ -75,4 +71,4 @@ instructions:
   op: 0
 - instruction: HLT
   op: 0
-start_addr: 26
+start_addr: 24
