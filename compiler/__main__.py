@@ -14,8 +14,10 @@ if __name__ == "__main__":
     ast = lisp_to_ast(code)
     generator(ast)
     add_halt()
+    iar = get_start_point()
 
     yaml_data = {
+        "start_addr" : iar,
          "instructions": [{"instruction": inst.instruction.name, "op": inst.op} for inst in instructions],
         "data": {key: value.__dict__ for key, value in data.items()}
         }
@@ -23,6 +25,6 @@ if __name__ == "__main__":
     with open(argv[2], "w") as output_file:
         dump(yaml_data, output_file, default_flow_style=False)
     
-    iar = get_start_point()
+    
 
     

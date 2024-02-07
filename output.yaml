@@ -1,44 +1,78 @@
 data:
-  a:
+  startaddr:
+    addr: 3
+    value: 0
+  string:
+    addr: 4
+    value: 10
+  tmpchr:
+    addr: 1
+    value: 1
+  tmpcnd:
+    addr: 2
+    value: 0
+  var:
     addr: 0
     value: 0
-  b:
-    addr: 1
-    value: 0
-  first:
-    addr: 2
-    value: first
-  second:
-    addr: 7
-    value: second
 instructions:
 - instruction: LD
   op: 0
-- instruction: ADD
-  op: 1
 - instruction: ST
-  op: 0
-- instruction: LD
-  op: 0
-- instruction: RET
-  op: 0
-- instruction: LD
-  op: 2
-- instruction: ST
-  op: 0
-- instruction: LD
-  op: 7
-- instruction: ST
-  op: 1
-- instruction: CALL
-  op: 0
+  op: 3
 - instruction: LDBF
   op: 735
 - instruction: ST
-  op: 7
+  op: 1
+- instruction: LDC
+  op: 0
+- instruction: ST
+  op: 326
+- instruction: LD
+  op: 1
+- instruction: SUB
+  op: 326
+- instruction: JZ
+  op: 0
+- instruction: JMP
+  op: 12
+- instruction: LDC
+  op: 0
+- instruction: ST
+  op: 2
+- instruction: LD
+  op: 0
+- instruction: ST
+  op: 1
+- instruction: LDC
+  op: 1
+- instruction: ADD
+  op: 0
+- instruction: LDC
+  op: 0
+- instruction: ST
+  op: 326
 - instruction: LD
   op: 2
-- instruction: STBF
+- instruction: SUB
+  op: 326
+- instruction: JZ
+  op: 0
+- instruction: JMP
   op: 2
+- instruction: LD
+  op: 3
+- instruction: ST
+  op: 0
+- instruction: LD
+  op: 3
+- instruction: RET
+  op: 0
+- instruction: LD
+  op: 4
+- instruction: ST
+  op: 0
+- instruction: CALL
+  op: 0
 - instruction: HLT
   op: 0
+start_addr: 26

@@ -14,7 +14,6 @@ class ControlUnit:
         rawInstruction: int
 
         while True:
-
             rawInstruction = dataPath.instructionMemory.getValue(
                 dataPath.IAR.getValue()
             )
@@ -22,21 +21,23 @@ class ControlUnit:
             dataPath.IR.setValue(rawInstruction)
 
             instruction = OpCodes[ ( rawInstruction >> 24 ) ]
-            print()
-            print(instruction)
-            print()
+            print(f"INSTRTTRR: {instruction}")
+            
 
             self.executeInstruction(dataPath, instruction)
+            
 
 
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
 
         if instruction is Instruction.NOP:
             print("NOP")
+            dataPath.mem_dump()
             sys.exit()
 
         if instruction is Instruction.HLT:
-            print("HALT")
+            print("\nHALT")
+            dataPath.mem_dump()
             sys.exit()
 
         mcodes: [int] = instruction.value
@@ -46,12 +47,11 @@ class ControlUnit:
             if ( mcode & 0x80000000 ):
                 if self.executeControlMicroCode(dataPath, mcode):
                     self.tick += 1
-                    break
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
             
-            print(f"TICK: {self.tick}")
-            dataPath.log_registers()
+
+            dataPath.log_registers(instruction.name, self.tick)
             self.tick += 1
 
 
@@ -101,11 +101,10 @@ class ControlUnit:
         # aluFlags += (dataPath.alu.getV() << 3)
 
         if ( flagsMask & aluFlags ):
-            
             dataPath.IAR.setValue(
-                dataPath.IR.getValue() & 0x1FFFF
+                dataPath.IAR.getValue() + 1
             )
-            dataPath.log_registers()
+            dataPath.log_registers("Branch", self.tick)
             return True
         
         return False

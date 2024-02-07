@@ -9,7 +9,7 @@ CONST_TO_AC = 0x00108480
 ADDR_TO_AR = 0x00088480
 ADDR_TO_AC = 0x00108480
 ADDR_TO_IAR = 0x00408480
-IAR_TO_AC = 0x00400440
+IAR_TO_AC = 0x00100440
 SP_TO_AR = 0x00080402
 MEM_TO_DR = 0x00800000
 INC_IAR = 0x00404440
@@ -90,7 +90,7 @@ class Instruction(Enum):
 
     JC = (
         0x80040000,
-        INC_IAR
+        INC_IAR,
     )
 
     LDBF = (
@@ -120,7 +120,7 @@ class Instruction(Enum):
 
     RET = (
         *POP,
-        *JMP
+        0x00400410
     )
 
     HLT = (

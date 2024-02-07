@@ -100,13 +100,13 @@ def generator(tokens: [str]):
                 instructions.append(
                         HighLevelInstruction(
                             Instruction.LDBF,
-                            tokens[i+1][1]
+                            tokens[i+2][0]
                         )
                     )
                 instructions.append(
                         HighLevelInstruction(
                             Instruction.ST,
-                            data[tokens[i+1][0]].addr
+                            data[tokens[i+1]].addr
                         )
                     )
             case 'write':
@@ -134,15 +134,19 @@ def generator(tokens: [str]):
                 instructions.append(
                         HighLevelInstruction(
                             Instruction.STBF,
-                            data[tokens[i+1][0]].addr
+                            data[tokens[i+2][0]].value if tokens[i+2][0] in data else tokens[i+2][0]
                         )
                     )
             case 'let':
-                data[tokens[i+1]] = HighLevelData(tokens[i+1], _data_pointer)
-                if isinstance(tokens[i+1], str):
-                    _data_pointer += len(tokens[i+1])
+                data[tokens[i+1]] = HighLevelData(tokens[i+2][0], _data_pointer)
+                if isinstance(tokens[i+2], str):
+                    _data_pointer += len(tokens[i+2])+1
                 else:
                     _data_pointer += 1
+                i += 1
+            case 'alloc':
+                data[tokens[i+1]] = HighLevelData(tokens[i+2][0], _data_pointer)
+                _data_pointer += tokens[i+2][0]
                 i += 1
             case 'save':
                 if len(tokens[i+2]) == 1 and isinstance(tokens[i+2][0], int):
@@ -184,7 +188,7 @@ def generator(tokens: [str]):
                     )
                 )
 
-                _tmp_addr = len(data) 
+                _tmp_addr = _data_pointer+322 
                 instructions.append(
                     HighLevelInstruction(
                         Instruction.ST,
@@ -217,8 +221,10 @@ def generator(tokens: [str]):
                         )
 
                         instructions.append(
-                            Instruction.JMP,
-                            _start_addr
+                            HighLevelInstruction(
+                                Instruction.JMP,
+                                _start_addr
+                            )
                         )
 
                     case '<':
@@ -236,6 +242,7 @@ def generator(tokens: [str]):
                             )
                         )
                 i += 3
+                break
             case 'if':
                 condition = tokens[i+1][0]
                 variable = tokens[i+1][1]
@@ -248,7 +255,7 @@ def generator(tokens: [str]):
                     )
                 )
 
-                _tmp_addr = len(data) 
+                _tmp_addr = _data_pointer+322 
                 instructions.append(
                     HighLevelInstruction(
                         Instruction.ST,
@@ -409,6 +416,7 @@ def generator(tokens: [str]):
                     case _:
                         if isinstance(tokens[i], list):
                             generator(tokens[i])
+
                       
 
               

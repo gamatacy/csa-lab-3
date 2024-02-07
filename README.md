@@ -64,7 +64,7 @@ python -m compiler <input.lsp> <output.yaml>
 | 3    | Operand       |
 | 4    | Operand         (Only 1 lower bit)  |
 | 5    |               |
-| 6    |               |
+| 6    | OpCode        |
 | 7    | OpCode        |
 
 
