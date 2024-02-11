@@ -21,10 +21,11 @@ class ControlUnit:
             dataPath.IR.setValue(rawInstruction)
 
             instruction = OpCodes[ ( rawInstruction >> 24 ) ]
-            print(f"INSTRTTRR: {instruction}")
-            
 
             self.executeInstruction(dataPath, instruction)
+    
+      
+           
             
 
 
@@ -38,6 +39,7 @@ class ControlUnit:
         if instruction is Instruction.HLT:
             print("\nHALT")
             dataPath.mem_dump()
+            dataPath.buff_dump()
             sys.exit()
 
         mcodes: [int] = instruction.value
@@ -45,12 +47,11 @@ class ControlUnit:
         for mcode in mcodes:
 
             if ( mcode & 0x80000000 ):
-                if self.executeControlMicroCode(dataPath, mcode):
-                    self.tick += 1
+                self.executeControlMicroCode(dataPath, mcode)
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
             
-
+            
             dataPath.log_registers(instruction.name, self.tick)
             self.tick += 1
 
@@ -63,7 +64,7 @@ class ControlUnit:
             if ( mcode & ( 0x10000 << offset ) ):
                 dataPath.mappedRegister[offset].setValue(dataPath.alu.getOutput())
 
-        if ( mcode & 0x7800000 and (dataPath.IR.getValue() & 0x1FFFF) ):
+        if ( mcode & 0x7800000 and (dataPath.IR.getValue() & 0x1FFFF) and (dataPath.IR.getValue() >> 24) != 0x10):
             dataPath.AR.setValue(
                 dataPath.IR.getValue() & 0xFFFF
             )
@@ -93,14 +94,16 @@ class ControlUnit:
     def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> bool:
         self.executeMicroCode(dataPath, mcode)
 
-        flagsMask:  int = (mcode & 0xF0000) >> 16
+        flagsMask:  int = (mcode & 0x0F0000) >> 16
+        notFlagsMask: int =  (mcode & 0x300000) >> 20
 
+       
         aluFlags: int = dataPath.getAcZ()
         aluFlags += (dataPath.getAcN() << 1)
         # aluFlags += (dataPath.alu.getC() << 2)
         # aluFlags += (dataPath.alu.getV() << 3)
 
-        if ( flagsMask & aluFlags ):
+        if ( flagsMask == aluFlags and notFlagsMask == 0 or flagsMask == 0 and notFlagsMask != aluFlags):
             dataPath.IAR.setValue(
                 dataPath.IAR.getValue() + 1
             )
@@ -159,5 +162,6 @@ class ControlUnit:
             dataPath.alu.shlt()
         elif ( mcode & 0x2000 ):
             dataPath.alu.shrt()
+
 
     

@@ -3,7 +3,7 @@ from ControlUnit import ControlUnit
 from instruction import *
 
 
-def run(start_addr: int, instructions: [int], data: [int], buffer: [chr]):
+def run(start_addr: int, instructions: [int], data: [int], buffer: [int]):
     dataPath = DataPath()
     controlUnit = ControlUnit()
 
@@ -13,4 +13,3 @@ def run(start_addr: int, instructions: [int], data: [int], buffer: [chr]):
     dataPath.buffers[735] = buffer
 
     controlUnit.runclk(dataPath)
-

@@ -3,7 +3,12 @@ from enum import Enum
 # 0x00404440
 
 AC_TO_MEM = 0x01010410
+DR_TO_MEM = 0x01010401
 AC_TO_DR = 0x00010410
+AC_TO_BR = 0x00200410
+BR_TO_DR = 0x00010420
+BR_TO_AC = 0x00100420
+AC_TO_AR = 0x00080410
 DR_TO_AC = 0x00100401
 CONST_TO_AC = 0x00108480
 ADDR_TO_AR = 0x00088480
@@ -43,9 +48,40 @@ class Instruction(Enum):
         INC_IAR
     )
 
+    #load from address in acc
+    LDAC = (
+        AC_TO_AR,
+        MEM_TO_DR,
+        DR_TO_AC,
+        INC_IAR
+    )
+
+    LDI = (
+        MEM_TO_DR,
+        DR_TO_AC,
+        INC_IAR
+    )
+
+    STBR = (
+        AC_TO_BR,
+        INC_IAR
+    )
+
     ST = (
         ADDR_TO_AR,
         AC_TO_MEM,
+        INC_IAR
+    )
+
+    BSTI = (
+        BR_TO_DR,
+        DR_TO_MEM,
+        INC_IAR
+    )
+
+    #set addr from acc
+    STAC = (
+        AC_TO_AR,
         INC_IAR
     )
     
@@ -78,8 +114,25 @@ class Instruction(Enum):
         INC_IAR
     )
 
+    AND = (
+        ADDR_TO_AR,
+        MEM_TO_DR,
+        0x00100811,
+        INC_IAR
+    )
+
     JZ = (
         0x80010000,
+        INC_IAR
+    )
+
+    JNN = (
+        0x80200000,
+        INC_IAR
+    )
+
+    JNZ = (
+        0x80100000,
         INC_IAR
     )
 
@@ -119,8 +172,10 @@ class Instruction(Enum):
     )
 
     RET = (
+        AC_TO_BR,
         *POP,
-        0x00400410
+        0x00400410,
+        BR_TO_AC
     )
 
     HLT = (
@@ -145,6 +200,14 @@ OpCodes = {
     0xE : Instruction.LDBF,
     0xF : Instruction.STBF,
     0x10 : Instruction.CALL,
+    0x11 : Instruction.LDI,
+    0x12 : Instruction.BSTI,
+    0x13 : Instruction.STBR,
+    0x14 : Instruction.AND,
     0x20 : Instruction.RET,
-    0x30 : Instruction.LDC
+    0x21 : Instruction.JNN,
+    0x22 : Instruction.JNZ,
+    0x30 : Instruction.LDC,
+    0x40 : Instruction.LDAC,
+    0x80 : Instruction.STAC,
 }

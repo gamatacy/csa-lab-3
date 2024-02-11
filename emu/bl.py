@@ -9,11 +9,11 @@ def parse_yaml_data(data_section: str):
             for char in value['value']:
                 data[value['addr']] = ord(char)
                 value['addr'] += 1
-            value += chr(0)
+            data[value['addr']] += ord('\0')
     return data
 
 def parse_yaml_instructions(instr_section):
-    instructions = [0] * 50
+    instructions = [0] * 512
     for idx, item in enumerate(instr_section):
         instruction = 0
         opcode = 0
@@ -31,3 +31,10 @@ def parse_yaml_instructions(instr_section):
 
 
     return instructions
+
+def parse_yaml_input(input):
+    buff = []
+    buff.append('\0')
+    for i in range(len(input)-1,-1,-1):
+        buff.append(input[i])
+    return buff

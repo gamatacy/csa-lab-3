@@ -16,11 +16,11 @@ TOKENS = {
     TOKEN_START: r"\b_start_\b",
     TOKEN_LEFT_PARENTHESIS: r"\(",
     TOKEN_RIGHT_PARENTHESIS: r"\)",
-    TOKEN_KEYWORD: r"\b(defun|call|ret|if|let|alloc|addr|save|read|write|while|incaddr|decaddr|setaddr)\b",
+    TOKEN_KEYWORD: r"\b(defun|call|ret|if|let|alloc|offset|save|read|write|while)\b",
     TOKEN_NUMBER: r"\d+",
     TOKEN_STRING: r'"(?:[^"\\]|\\.)*"',
-    TOKEN_OPERATOR: r"(<=|>=|<|>|=|<<|>>|\*|\+|-|/)",
-    TOKEN_IDENTIFIER: r"\b[a-zA-Z][a-zA-Z0-9]*\b"
+    TOKEN_OPERATOR: r"(<|>=|!=|=|<<|>>|\+|&&|-|/)",
+    TOKEN_IDENTIFIER: r"(?:&)?\b[a-zA-Z][a-zA-Z0-9]*\b"
 }
 
 

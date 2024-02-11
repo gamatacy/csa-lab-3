@@ -5,7 +5,6 @@ from sys import argv
 from yaml import dump
 
 if __name__ == "__main__":
-    print(argv[1])
     input_file = open(argv[1], "r")
     
     code = input_file.read()
@@ -16,10 +15,15 @@ if __name__ == "__main__":
     add_halt()
     iar = get_start_point()
 
+    input = ""
+    if len(argv) > 3:
+        input = argv[3]
+
     yaml_data = {
         "start_addr" : iar,
-         "instructions": [{"instruction": inst.instruction.name, "op": inst.op} for inst in instructions],
-        "data": {key: value.__dict__ for key, value in data.items()}
+        "instructions": [{"instruction": inst.instruction.name,"op": inst.op, "addr" : hex(idx)} for idx, inst in enumerate(instructions)],
+        "data" : {key: value.__dict__ for key, value in data.items()},
+        "input" : input 
         }
 
     with open(argv[2], "w") as output_file:

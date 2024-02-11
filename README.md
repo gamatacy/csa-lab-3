@@ -164,8 +164,8 @@ python -m compiler <input.lsp> <output.yaml>
 | 17 | CMP N       |
 | 18 | CMP C       |
 | 19 | CMP V       |
-| 20 |             |
-| 21 |             |
+| 20 | CMP NOT Z   |
+| 21 | CMP NOT N   |
 | 22 |             |
 | 23 |             |
 | 24 |             |

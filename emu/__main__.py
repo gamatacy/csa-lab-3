@@ -9,6 +9,9 @@ if __name__ == "__main__":
 
     data = parse_yaml_data(yaml_data['data'])
     instructions = parse_yaml_instructions(yaml_data['instructions'])
+    buff = parse_yaml_input(yaml_data['input'])
     start_addr = int(yaml_data['start_addr'])
     
-    run(start_addr, instructions, data, [chr(0),'a','b','c'])
+    run(start_addr, instructions, data, buff)
+
+    
