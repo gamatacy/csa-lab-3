@@ -65,7 +65,6 @@ class DataPath:
     def buff_dump(self):
         self.dump.write(F"\n.bss\n")
         for buff in self.buffers:
-            print(self.buffers[buff])
             self.dump.write(f"<port {buff}>: ")
             self.dump.write("".join(str(item) for item in self.buffers[buff]))
             self.dump.write("\n")

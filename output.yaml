@@ -1,15 +1,9 @@
 data:
-  a:
-    addr: 49
-    value: 20
   addr:
     addr: 44
     value: 0
   bits1:
     addr: 6
-    value: 0
-  c:
-    addr: 50
     value: 0
   divide1:
     addr: 7
@@ -26,6 +20,9 @@ data:
   gcdres:
     addr: 18
     value: 0
+  hi:
+    addr: 68
+    value: 'Hello, '
   idx:
     addr: 20
     value: 1
@@ -68,6 +65,9 @@ data:
   multiply2:
     addr: 12
     value: 0
+  name:
+    addr: 78
+    value: 78
   offset:
     addr: 45
     value: 0
@@ -98,6 +98,12 @@ data:
   tmpcnd:
     addr: 23
     value: 0
+  vosklitzatelniyznak:
+    addr: 76
+    value: '!'
+  wiyn:
+    addr: 49
+    value: What is your name?
   writebuff1:
     addr: 26
     value: 0
@@ -110,7 +116,7 @@ data:
   writeintbuffer:
     addr: 28
     value: 28
-input: ''
+input: Ivan
 instructions:
 - addr: '0x0'
   instruction: LDC
@@ -1358,27 +1364,51 @@ instructions:
   instruction: RET
   op: 0
 - addr: '0x19f'
-  instruction: LD
-  op: 49
+  instruction: LDC
+  op: 78
 - addr: '0x1a0'
   instruction: ST
-  op: 19
+  op: 25
 - addr: '0x1a1'
   instruction: CALL
-  op: 226
+  op: 248
 - addr: '0x1a2'
-  instruction: ST
-  op: 50
+  instruction: LDC
+  op: 49
 - addr: '0x1a3'
-  instruction: LD
-  op: 50
-- addr: '0x1a4'
   instruction: ST
-  op: 46
-- addr: '0x1a5'
+  op: 27
+- addr: '0x1a4'
   instruction: CALL
-  op: 377
+  op: 338
+- addr: '0x1a5'
+  instruction: LDC
+  op: 68
 - addr: '0x1a6'
+  instruction: ST
+  op: 27
+- addr: '0x1a7'
+  instruction: CALL
+  op: 338
+- addr: '0x1a8'
+  instruction: LDC
+  op: 78
+- addr: '0x1a9'
+  instruction: ST
+  op: 27
+- addr: '0x1aa'
+  instruction: CALL
+  op: 338
+- addr: '0x1ab'
+  instruction: LDC
+  op: 76
+- addr: '0x1ac'
+  instruction: ST
+  op: 27
+- addr: '0x1ad'
+  instruction: CALL
+  op: 338
+- addr: '0x1ae'
   instruction: HLT
   op: 0
 start_addr: 415

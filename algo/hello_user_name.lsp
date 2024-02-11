@@ -1,3 +1,4 @@
+#include lib/math.lsp
 #include lib/str.lsp
 
 (_start_

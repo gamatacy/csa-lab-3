@@ -492,6 +492,25 @@ def generator(tokens: [str]):
             case _:
                 match tokens[i]:
                     case "+":
+
+                        if isinstance(tokens[i+2], list):
+                            generator(tokens[i+2])
+                            instructions.append(
+                            HighLevelInstruction(
+                                Instruction.ADD,
+                                data[tokens[i+1]].addr
+                            )
+                            )
+
+                            instructions.append(
+                                HighLevelInstruction(
+                                    Instruction.ST,
+                                    data[tokens[i+1]].addr
+                                )
+                            )
+                            break
+
+                        _tmp_addr = 707
                         if tokens[i+1] in data:
                             instructions.append(
                                 HighLevelInstruction(
@@ -499,6 +518,36 @@ def generator(tokens: [str]):
                                     data[tokens[i+1]].addr
                                 )
                             )
+                        elif tokens[i+2] not in data:
+                            instructions.append(
+                                HighLevelInstruction(
+                                    Instruction.LDC,
+                                    tokens[i+2]
+                                )
+                            )
+
+                            instructions.append(
+                                HighLevelInstruction(
+                                    Instruction.ST,
+                                    _tmp_addr
+                                )
+                            )
+                            instructions.append(
+                                HighLevelInstruction(
+                                    Instruction.LDC,
+                                    tokens[i+1]
+                                )
+                            )
+
+                            instructions.append(
+                            HighLevelInstruction(
+                                Instruction.ADD,
+                                _tmp_addr
+                            )
+                            )
+                            break
+
+
                         else:
                             instructions.append(
                                 HighLevelInstruction(
@@ -507,8 +556,7 @@ def generator(tokens: [str]):
                                 )
                             )
 
-                         
-                        #2nd op should be in memory
+                        
                         instructions.append(
                             HighLevelInstruction(
                                 Instruction.ADD,
@@ -568,9 +616,6 @@ def generator(tokens: [str]):
                             )
 
                         
-
-
-                        #2nd op must be in memory
                         instructions.append(
                             HighLevelInstruction(
                                 Instruction.SUB,
@@ -634,12 +679,6 @@ def generator(tokens: [str]):
                             )
                         )
                  
-                        # instructions.append(
-                        #     HighLevelInstruction(
-                        #         Instruction.ST,
-                        #         data[tokens[i+1]].addr
-                        #     )
-                        # )
                         i+=2
                     case "&&":
                         instructions.append(

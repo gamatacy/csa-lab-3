@@ -32,12 +32,12 @@ class ControlUnit:
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
 
         if instruction is Instruction.NOP:
-            print("NOP")
+            # print("NOP")
             dataPath.mem_dump()
             sys.exit()
 
         if instruction is Instruction.HLT:
-            print("\nHALT")
+            # print("\nHALT")
             dataPath.mem_dump()
             dataPath.buff_dump()
             sys.exit()
