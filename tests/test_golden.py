@@ -25,7 +25,14 @@ def test_golden(golden, caplog):
     buff = parse_yaml_input(yaml_data['input'])
     start_addr = int(yaml_data['start_addr'])
     
+    dump_name = golden["dump"]
+    idx = 0
+    for line in dump_name.readlines():
+        print(line)
+        idx += 1
+        if (idx == 15): break
+
     soc = Soc()
     soc.run(start_addr, instructions, data, buff)
 
-    assert filecmp.cmp(golden["dump"], "emu.dump")
+    assert filecmp.cmp(dump_name, "emu.dump")
