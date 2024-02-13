@@ -27,7 +27,8 @@ def test_golden(golden, caplog):
     
     dump_name = golden["dump"]
     idx = 0
-    for line in dump_name.readlines():
+    f = open(dump_name, "r")
+    for line in f.readlines():
         print(line)
         idx += 1
         if (idx == 15): break
