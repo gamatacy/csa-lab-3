@@ -1,4 +1,4 @@
-from instruction import Instruction, OpCodes
+from emu.instruction import Instruction, OpCodes
 
 def parse_yaml_data(data_section: str):
     data = [0] * 2048
