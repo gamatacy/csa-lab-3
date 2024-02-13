@@ -27,7 +27,7 @@ jobs:
         poetry install
     - name: Lint with ruff
       run: |
-        poetry run python -m ruff lab3
+        poetry run python -m ruff csa3
   test:
     runs-on: ubuntu-latest
     steps:
