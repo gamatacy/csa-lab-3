@@ -1,6 +1,4 @@
 from enum import Enum
-# inc iar
-# 0x00404440
 
 AC_TO_MEM = 0x01010410
 DR_TO_MEM = 0x01010401

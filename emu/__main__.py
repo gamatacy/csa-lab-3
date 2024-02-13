@@ -1,6 +1,6 @@
-from soc import run
+from emu.soc import run
 import yaml
-from bl import parse_yaml_data, parse_yaml_input, parse_yaml_instructions
+from emu.bl import parse_yaml_data, parse_yaml_input, parse_yaml_instructions
 
 if __name__ == "__main__":
 
