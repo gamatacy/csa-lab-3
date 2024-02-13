@@ -1,6 +1,5 @@
 from emu.DataPath import DataPath
 from emu.instruction import Instruction, OpCodes
-import sys
 
 class ControlUnit:
 
@@ -20,11 +19,8 @@ class ControlUnit:
 
             instruction = OpCodes[ ( rawInstruction >> 24 ) ]
 
-            if self.executeInstruction(dataPath, instruction): break
-    
-      
-           
-            
+            if self.executeInstruction(dataPath, instruction):
+                break
 
 
     def executeInstruction(self, dataPath: DataPath, instruction: Instruction):
