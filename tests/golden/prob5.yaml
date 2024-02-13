@@ -1,0 +1,2 @@
+in_source: algo/prob5.lsp
+dump: tests/golden/prob5.dump

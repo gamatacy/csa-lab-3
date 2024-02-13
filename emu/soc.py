@@ -12,3 +12,5 @@ def run(start_addr: int, instructions: [int], data: [int], buffer: [int]):
     dataPath.buffers[735] = buffer
 
     controlUnit.runclk(dataPath)
+
+    return

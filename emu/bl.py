@@ -13,7 +13,7 @@ def parse_yaml_data(data_section: str):
     return data
 
 def parse_yaml_instructions(instr_section):
-    instructions = [0] * 512
+    instructions = [0] * 2048
     for idx, item in enumerate(instr_section):
         instruction = 0
         opcode = 0

@@ -1,0 +1,3 @@
+in_source: algo/hello_user_name.lsp
+dump: tests/golden/hello_user_name.dump
+input: Ivan

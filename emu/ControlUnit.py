@@ -20,7 +20,7 @@ class ControlUnit:
 
             instruction = OpCodes[ ( rawInstruction >> 24 ) ]
 
-            self.executeInstruction(dataPath, instruction)
+            if self.executeInstruction(dataPath, instruction): break
     
       
            
@@ -32,13 +32,13 @@ class ControlUnit:
         if instruction is Instruction.NOP:
             # print("NOP")
             dataPath.mem_dump()
-            sys.exit()
-
+            return True
+        
         if instruction is Instruction.HLT:
             # print("\nHALT")
             dataPath.mem_dump()
             dataPath.buff_dump()
-            sys.exit()
+            return True
 
         mcodes: [int] = instruction.value
 
