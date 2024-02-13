@@ -1,5 +1,5 @@
-from DataPath import DataPath
-from ControlUnit import ControlUnit
+from emu.DataPath import DataPath
+from emu.ControlUnit import ControlUnit
 
 
 def run(start_addr: int, instructions: [int], data: [int], buffer: [int]):
