@@ -1,36 +1,31 @@
-import contextlib
-import io
 import logging
-import os
-import tempfile
+from io import StringIO
 
 import pytest
+from csa3.compiler.compiler import compile
+from csa3.emu.bl import *
+from csa3.emu.soc import *
 
-@pytest.mark.golden_test("golden/*.yml")
-def test_translator_and_machine(golden, caplog):
+@pytest.mark.golden_test("golden/*.yaml")
+def golden_test(golden, caplog, capsys, tmpdir):
     caplog.set_level(logging.DEBUG)
+    log_formatter = logging.Formatter("%(message)s")
+    caplog.handler.setFormatter(log_formatter)
 
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        source = os.path.join(tmpdirname, "source.vjs")
-        input_stream = os.path.join(tmpdirname, "input.txt")
-        target = os.path.join(tmpdirname, "target.o")
-        static_mem = os.path.join(tmpdirname, "static_mem.o")
+    compiled_prog_buffer = StringIO()
 
-        # with open(source, "w", encoding="utf-8") as file:
-        #     file.write(golden["in_source"])
-        # with open(input_stream, "w", encoding="utf-8") as file:
-        #     file.write(golden["in_stdin"])
-        # with open(static_mem, "w", encoding="utf-8") as file:
-        #     file.write(golden["static_mem"])
+    yaml_data = {}
+    with open(golden["in_source"], encoding="utf-8") as code_source:
+        yaml_data= compile(code_source, compiled_prog_buffer)
 
-        # with contextlib.redirect_stdout(io.StringIO()) as stdout:
-        #     translator.main(source, target, static_mem)
-        #     print("============================================================")
-        #     virtual_machine.main(target, input_stream, static_mem)
+    data = parse_yaml_data(yaml_data['data'])
+    instructions = parse_yaml_instructions(yaml_data['instructions'])
+    buff = parse_yaml_input(yaml_data['input'])
+    start_addr = int(yaml_data['start_addr'])
+    
+    run(start_addr, instructions, data, buff)
 
-        # with open(target, encoding="utf-8") as file:
-        #     code = file.read()
+    expecteddump = open(golden["dump"], encoding="utf-8")
+    realdump = open("emu.dump", encoding="utf-8")
 
-        # assert code == golden.out["out_code"]
-        # assert stdout.getvalue() == golden.out["out_stdout"]
-        # assert caplog.text == golden.out["out_log"]
+    assert expecteddump.read() == realdump.read()

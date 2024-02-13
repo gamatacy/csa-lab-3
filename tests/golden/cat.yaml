@@ -1,0 +1,3 @@
+in_source: algo/cat.lsp
+dump: cat.dump
+input: CAT_TEST_STRING

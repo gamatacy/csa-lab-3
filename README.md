@@ -4,9 +4,9 @@
 
 ## How to
 
-Compile code
+Комплияция кода
 ```
-python -m compiler <input.lsp> <output.yaml>
+python -m compiler <input.lsp> <output.yaml> <input>
 ```
 
 ## Lisp syntax
@@ -14,47 +14,90 @@ python -m compiler <input.lsp> <output.yaml>
 ```lisp
 <program>               := <expressions> EOF
 
-<expressions>           := | <expressions> <expression>
+<expression>            ::= <expression> | <literal> | <varname>
 
-<expression>            := <open-bracket> <bracketed-expression> <varname> | <literal> | <close-bracket>
+<expressions>           ::= <expression> | <expression> <expressions>
 
-<bracketed-expression>  :=  <function-definition> 
-                            | <function-call> 
-                            | <if-condition> 
-                            | <binary-operation> 
-                            | <assignment> 
-                            | <loop-expression>
+<multi-expression>      ::= "(" <expressions> ")"
 
-<function-call>         := call <fname> <arguments>
+<load-ptr>              ::= "(" "&" <varname> ")"
 
-<arguments>             := <var> | <expression>
+<function-definition>   ::= "(" defun <varname> <open-bracket> <expression> ")"
 
-<function-definition>   := defun <varname> <open-bracket> <parameters> <close-bracket> <expressions>
+<func-call-expression>  ::= "(" call <varname> <expressions> ")"
 
-<parameters>            := | <parameters> <varname>
+<func-ret-expression>   ::= "(" ret <varname> ")"
 
-<assignment>            := let <varname> <expr>
+<assignment>            ::= "(" let <varname> <expression> ")"
 
-<if-condition>          := if <condition-expression> <true-expression>
+<allocation>            ::= "(" alloc <varname> <expression> ")"
 
-<loop-expression>       := loop <condition-expression> <expressions> 
+<if-condition>          ::= "(" if <condition-expression> <true-expression> ")"
 
-<math-operator>         := < | = | << | >> | + | - 
+<loop-expression>       ::= "(" while <condition-expression> do <expressions> ")"
 
-<unary-operator>        := save
+<math-operator>         ::= "<" | ">=" | "!=" | "=" | "<<" | ">>" | "+" | "-" 
 
-<condition-expression>  := <expression>
+<memory-operator>       ::= "(" save | load | offset <varname> <expression> ")"
 
-<literal>               := <number-literal> | <string-literal> 
+<io-operator>           ::= "(" read | write <varname> <expression> ")"
 
-<number-literal>        := [0-9]+
+<if-expression>         ::= <open-bracket> "if <open-bracket> 
 
-<string-literal>        := "\w*"
+<literal>               ::= <number-literal> | <string-literal> 
 
-<varname>               := [a-zA-Z\.]\w*
+<number-literal>        ::= [0-9]+
+
+<string-literal>        ::= "\w*"
+
+<varname>               ::= [a-zA-Z\.]\w*
+
+<include>               ::= "#include " .+ <EOL>
 ```
 
+## Memory layout
+
+Использутется гарвардская архитектура, поэтому память инструкций и память данных разделена.
+Память представляет из себя линейное адресное пространство, состоящее из 32-битных слов.
+
+```
+   Instruction memory
++------------------------------+
+| 00  : Instruction            |
+|    ...                       |
+| 10  : Instruction            |
+| 11  : Instruction            |
+|    ...                       |
+| n   : program start          |
+|    ...                       |
+| i   : Instruction            |
+| i+1 : Instruction            |
+|    ...                       |
++------------------------------+
+```
+
+```
+          Data memory
++------------------------------+
+| 00         : variable 1      |
+| 01         : variable 2      |
+|    ...                       |
+| s+0        : variable 3      |
+| s+1        : variable 3      |
+|    ...                       |
+| s+len(str) : variable 3      |
+|    ...                       |
++------------------------------+
+```
+
+Все переменные имеют глобальную область видимости.
+
 ## Instruction set
+
+* Машинное слово - 32 бит, знаковое
+* Доступ к памяти данных осуществляется по адресу, который указан в инструкции
+* Ввод/вывод осуществляется путем чтения и записи в устройство по номеру порта
+* Адресация абсолютная, адрес хранится в инструкции в виде операнда
 
 | Byte | Description   |
 |------|---------------|
@@ -67,29 +110,63 @@ python -m compiler <input.lsp> <output.yaml>
 | 6    | OpCode        |
 | 7    | OpCode        |
 
-
 | Opcode | Instruction | Operand | Description |
 |--------|-------------|---------|-------------|
 | 0x0    | NOP         |         |  Nothing    |
-| 0x1    | LD          |   ADDR  |  MEM[ADDR] -> Acc|
+| 0x1    | LD          |   ADDR  |  MEM[ADDR] -> AC|
 | 0x2    | HLT         |         |  Stop clk|
-| 0x3    | PUSH        |         |  Acc -> SP+1|
-| 0x4    | POP         |         |  SP -> Acc, SP-1|
-| 0x5    | ST          |   ADDR  |  Acc -> MEM[ADDR] |
+| 0x3    | PUSH        |         |  AC -> SP+1|
+| 0x4    | POP         |         |  SP -> AC, SP-1|
+| 0x5    | ST          |   ADDR  |  AC -> MEM[ADDR] |
 | 0x6    | JMP         |   ADDR  |  ADDR -> IAR |
-| 0x7    | ROL         |         |  Acc << 1|
-| 0x8    | ROR         |         |  Acc >> 1|
-| 0x9    | ADD         |   ADDR  |  Acc + MEM[ADDR]|
-| 0xA    | SUB         |   ADDR  |  Acc - MEM[ADDR]|
+| 0x7    | ROL         |         |  AC << 1|
+| 0x8    | ROR         |         |  AC >> 1|
+| 0x9    | ADD         |   ADDR  |  AC + MEM[ADDR]|
+| 0xA    | SUB         |   ADDR  |  AC - MEM[ADDR]|
 | 0xB    | JZ          |         |  IF FLAG.Z, IAR+1|
 | 0xC    | JN          |         |  IF FLAG.N, IAR+1|
 | 0xD    | JC          |         |  IF FLAG.C, IAR+1|
-| 0xE    | LDBF        |   PORT  |  IO[PORT] -> Acc |
-| 0xF    | STBF        |   PORT  |  Acc -> IO[PORT] |
+| 0xE    | LDBF        |   PORT  |  IO[PORT] -> AC |
+| 0xF    | STBF        |   PORT  |  AC -> IO[PORT] |
 | 0x10   | CALL        |   ADDR  |  IAR -> SP, ADDR -> IAR |
+| 0x11   | LDI         |         |  MEM[AR] -> AC |
+| 0x12   | BSTI        |         |  BR -> DR, DR -> MEM[AR] |
+| 0x13   | STBR        |         |  AC -> BR |
+| 0x14   | AND         |   ADDR  |   AC & MEM[ADDR] |
 | 0x20   | RET         |         |  SP -> IAR |
+| 0x20   | JNN         |         |  IF NOT FLAG.N, IAR+1 |
+| 0x20   | JNZ         |         |  IF NOT FLAG.Z, IAR+1  |
+| 0x20   | LDC         |  CONST  |  CONST -> AC |
+| 0x20   | LDAC        |         |  AC -> AR, MEM[AR] -> AC |
+| 0x20   | STAC        |         |  AC -> AR |
 
 
+### Кодирование инструкций
+Машинный код сериализуется в список YAML
+
+Пример:
+
+```yaml
+data:
+  a:
+    addr: 0
+    value: 52
+  b:
+    addr: 1
+    value: 0
+  c:
+    addr: 2
+    value: rndmstr
+input: String
+instructions:
+- addr: '0x0'
+  instruction: LDC
+  op: 0
+- addr: '0x1'
+  instruction: ST
+  op: 0
+start_addr: 415
+```
 ## Microcode 
 
 Микрокоманда - 32 бита 
