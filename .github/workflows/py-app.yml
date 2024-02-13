@@ -47,5 +47,5 @@ jobs:
         poetry install
     - name: Run tests
       run: |
-        poetry run pytest ./tests -v
+        poetry run python -m pytest ./tests 
     needs: lint

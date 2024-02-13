@@ -2,9 +2,9 @@ import logging
 from io import StringIO
 
 import pytest
-from csa3.compiler.compiler import compile
-from csa3.emu.bl import parse_yaml_data,parse_yaml_input,parse_yaml_instructions
-from csa3.emu.soc import run
+from compiler.compiler import compile
+from emu.bl import parse_yaml_data,parse_yaml_input,parse_yaml_instructions
+from emu.soc import run
 
 @pytest.mark.golden_test("golden/*.yaml")
 def golden_test(golden, caplog, capsys, tmpdir):
