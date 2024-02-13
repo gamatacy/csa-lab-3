@@ -25,16 +25,16 @@ jobs:
     - name: Install project
       run: |
         poetry install
-    - name: Lint with ruff
+    - name: Lint with pylint
       run: |
-        poetry run python -m ruff csa3
+        make lint
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Install poetry
       run: pip install poetry
-    - name: Set up Python 3.11
+    - name: Set up Python 3.1
       uses: actions/setup-python@v4
       with:
         python-version: "3.11"
@@ -44,5 +44,5 @@ jobs:
         poetry install
     - name: Run tests
       run: |
-        poetry run pytest ./tests -v
+        make test-cov
     needs: lint
