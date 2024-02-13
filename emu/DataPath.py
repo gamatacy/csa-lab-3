@@ -1,5 +1,5 @@
-from hw import Memory, Register
-from alu import ALU
+from emu.hw import Memory, Register
+from emu.alu import ALU
 
 MEMORY_SIZE = 256
 

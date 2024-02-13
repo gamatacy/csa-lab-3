@@ -1,5 +1,5 @@
-from DataPath import DataPath
-from instruction import Instruction, OpCodes
+from emu.DataPath import DataPath
+from emu.instruction import Instruction, OpCodes
 import sys
 
 class ControlUnit:
