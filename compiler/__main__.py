@@ -1,9 +1,5 @@
-from .parser import *
-from .isagenerator import *
-from .preprocessor import parse_includes
 from sys import argv
 from yaml import dump
-import compiler
 
 if __name__ == "__main__":
     input_file = open(argv[1], "r")

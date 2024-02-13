@@ -1,4 +1,4 @@
-from emu.instruction import *
+from emu.instruction import Instruction
 
 class HighLevelInstruction():
 
@@ -147,7 +147,7 @@ def generator(tokens: [str]):
                 
                 try:
                     int(tokens[i+2][0])
-                except:
+                except ValueError:
                     tokens[i+2][0] = str(tokens[i+2][0])
 
                 if isinstance(tokens[i+2][0], str):

@@ -1,6 +1,5 @@
-from DataPath import DataPath, MEMORY_SIZE
+from DataPath import DataPath
 from ControlUnit import ControlUnit
-from instruction import *
 
 
 def run(start_addr: int, instructions: [int], data: [int], buffer: [int]):

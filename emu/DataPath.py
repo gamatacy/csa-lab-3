@@ -1,4 +1,4 @@
-from hw import *
+from hw import Memory, Register
 from alu import ALU
 
 MEMORY_SIZE = 256
@@ -63,7 +63,7 @@ class DataPath:
         self.dump.write(f"<tick {tick}> --- AC: {hex(self.AC.getValue()).ljust(16)} DR: {hex(self.DR.getValue()).ljust(16)} BR: {hex(self.BR.getValue()).ljust(16)} PS: {hex(self.PS.getValue()).ljust(16)} IR: {hex(self.IR.getValue()).ljust(16)} SP: {hex(self.SP.getValue()).ljust(16)} IAR: {hex(self.IAR.getValue()).ljust(16)} AR: {hex(self.AR.getValue()).ljust(16)}\n")
 
     def buff_dump(self):
-        self.dump.write(F"\n.bss\n")
+        self.dump.write("\n.bss\n")
         for buff in self.buffers:
             self.dump.write(f"<port {buff}>: ")
             self.dump.write("".join(str(item) for item in self.buffers[buff]))

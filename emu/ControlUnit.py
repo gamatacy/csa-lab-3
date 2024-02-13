@@ -1,7 +1,5 @@
-from hw import Memory
-from typing import Optional
 from DataPath import DataPath
-from instruction import *
+from instruction import Instruction, OpCodes
 import sys
 
 class ControlUnit:

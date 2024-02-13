@@ -1,7 +1,6 @@
-from .parser import *
-from .isagenerator import *
+from .parser import lisp_to_ast
+from .isagenerator import generator, add_halt,get_start_point, data, instructions
 from .preprocessor import parse_includes
-from yaml import dump
 
 
 def compile(input_file,buffer=""):
