@@ -1,16 +1,18 @@
 from emu.DataPath import DataPath
 from emu.ControlUnit import ControlUnit
 
+class Soc():
 
-def run(start_addr: int, instructions: [int], data: [int], buffer: [int]):
-    dataPath = DataPath()
-    controlUnit = ControlUnit()
+    def __init__(self):
+        pass
 
-    dataPath.IAR.setValue(start_addr)
-    dataPath.dataMemory.memory = data
-    dataPath.instructionMemory.memory = instructions
-    dataPath.buffers[735] = buffer
+    def run(self, start_addr: int, instructions: [int], data: [int], buffer: [int]):
+        dataPath = DataPath()
+        controlUnit = ControlUnit()
 
-    controlUnit.runclk(dataPath)
+        dataPath.IAR.setValue(start_addr)
+        dataPath.dataMemory.memory = data
+        dataPath.instructionMemory.memory = instructions
+        dataPath.buffers[735] = buffer
 
-    return
+        controlUnit.runclk(dataPath)

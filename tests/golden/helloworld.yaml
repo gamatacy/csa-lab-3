@@ -1,2 +1,3 @@
 in_source: algo/helloworld.lsp
-dump: tests/golden/helloworld.dump
+dump: tests/golden/helloworld_test.dump
+name: helloworld_test

@@ -1,5 +1,6 @@
 from sys import argv
 from yaml import dump
+from compiler.compiler import compile
 
 if __name__ == "__main__":
     input_file = open(argv[1], "r")

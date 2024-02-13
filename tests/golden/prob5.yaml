@@ -1,2 +1,3 @@
 in_source: algo/prob5.lsp
-dump: tests/golden/prob5.dump
+dump: tests/golden/prob5_test.dump
+name: prob5_test

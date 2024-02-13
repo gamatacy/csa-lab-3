@@ -1,3 +1,4 @@
 in_source: algo/cat.lsp
-dump: tests/golden/cat.dump
+dump: tests/golden/cat_test.dump
 input: CAT_TEST_STRING
+name: cat_test

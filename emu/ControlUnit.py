@@ -5,6 +5,8 @@ class ControlUnit:
 
     def __init__(self):
         self.tick = 0
+    
+
 
     def runclk(self, dataPath: DataPath):
         instruction: Instruction

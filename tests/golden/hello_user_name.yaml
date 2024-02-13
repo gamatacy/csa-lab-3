@@ -1,3 +1,4 @@
 in_source: algo/hello_user_name.lsp
-dump: tests/golden/hello_user_name.dump
+dump: tests/golden/hello_user_name_test.dump
 input: Ivan
+name: hello_user_name_test
