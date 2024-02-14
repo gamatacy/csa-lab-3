@@ -23,7 +23,7 @@ class ControlUnit:
             if self.execute_instruction(data_path, instruction):
                 break
 
-    def execute_instruction(self, data_path: DataPath, instruction: Instruction):
+    def execute_instruction(self, data_path: DataPath, instruction: Instruction) -> bool:
 
         if instruction is Instruction.NOP:
             data_path.mem_dump()
@@ -45,6 +45,8 @@ class ControlUnit:
 
             data_path.log_registers(instruction.name, self.tick)
             self.tick += 1
+
+        return False
 
     def execute_operation_microcode(self, data_path: DataPath, mcode: int):
         self.execute_micro_code(data_path, mcode)
