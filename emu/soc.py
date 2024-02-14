@@ -1,7 +1,8 @@
-from emu.DataPath import DataPath
 from emu.ControlUnit import ControlUnit
+from emu.DataPath import DataPath
 
-class Soc():
+
+class Soc:
 
     def __init__(self):
         pass

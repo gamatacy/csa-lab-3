@@ -1,5 +1,5 @@
-from emu.hw import Memory, Register
 from emu.alu import ALU
+from emu.hw import Memory, Register
 
 MEMORY_SIZE = 256
 
@@ -39,23 +39,23 @@ class DataPath:
         ]
 
         self.buffers = {
-            735 : ['a','b','c']
+            735 : ["a","b","c"]
         }
-        
+
 
         self.dump = open("emu.dump", "w")
         self.memdump = open("mem.dump", "w")
 
     def getAcZ(self) -> int:
         return 1 if self.AC.getValue() == 0 else 0
-    
+
     def getAcN(self) -> int:
-        return 1 if self.AC.getValue() < 0 else 0 
-    
+        return 1 if self.AC.getValue() < 0 else 0
+
     def readBuffer(self, port: int) -> int:
         val = ord(self.buffers[port].pop())
         return val
-    
+
     def writeBuffer(self, port: int, value: int):
         return self.buffers[port].append(chr(value))
 

@@ -1,9 +1,11 @@
 from sys import argv
+
 from yaml import dump
+
 from compiler.compiler import compile
 
 if __name__ == "__main__":
-    input_file = open(argv[1], "r")
+    input_file = open(argv[1])
     input = ""
     if len(argv) > 3:
         input = argv[3]
@@ -12,7 +14,7 @@ if __name__ == "__main__":
 
     with open(argv[2], "w") as output_file:
         dump(yaml_data, output_file, default_flow_style=False)
-    
-    
 
-    
+
+
+

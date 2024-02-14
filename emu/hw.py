@@ -1,4 +1,4 @@
-class Register():
+class Register:
 
     def __init__(self, value = 0):
         self.value: int = value
@@ -12,8 +12,8 @@ class Register():
     def inc(self):
         self.value += 1
 
-class Memory():
-    
+class Memory:
+
     def __init__(self, size: int):
         self.memory: [int] = [0] * size
 

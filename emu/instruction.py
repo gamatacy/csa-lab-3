@@ -82,7 +82,7 @@ class Instruction(Enum):
         AC_TO_AR,
         INC_IAR
     )
-    
+
     JMP = (
         INC_IAR,
         ADDR_TO_IAR
@@ -181,8 +181,8 @@ class Instruction(Enum):
     )
 
 OpCodes = {
-    0x0 : Instruction.NOP, 
-    0x1 : Instruction.LD,  
+    0x0 : Instruction.NOP,
+    0x1 : Instruction.LD,
     0x2 : Instruction.HLT,
     0x3 : Instruction.PUSH,
     0x4 : Instruction.POP,

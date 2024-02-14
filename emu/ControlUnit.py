@@ -1,11 +1,12 @@
 from emu.DataPath import DataPath
 from emu.instruction import Instruction, OpCodes
 
+
 class ControlUnit:
 
     def __init__(self):
         self.tick = 0
-    
+
 
 
     def runclk(self, dataPath: DataPath):
@@ -31,7 +32,7 @@ class ControlUnit:
             # print("NOP")
             dataPath.mem_dump()
             return True
-        
+
         if instruction is Instruction.HLT:
             # print("\nHALT")
             dataPath.mem_dump()
@@ -46,8 +47,8 @@ class ControlUnit:
                 self.executeControlMicroCode(dataPath, mcode)
             else:
                 self.executeOperationMicroCode(dataPath, mcode)
-            
-            
+
+
             dataPath.log_registers(instruction.name, self.tick)
             self.tick += 1
 
@@ -84,7 +85,7 @@ class ControlUnit:
             dataPath.writeBuffer(dataPath.AR.getValue(),
                 dataPath.AC.getValue()
             )
-            
+
 
 
     def executeControlMicroCode(self, dataPath: DataPath, mcode: int) -> bool:
@@ -93,7 +94,7 @@ class ControlUnit:
         flagsMask:  int = (mcode & 0x0F0000) >> 16
         notFlagsMask: int =  (mcode & 0x300000) >> 20
 
-       
+
         aluFlags: int = dataPath.getAcZ()
         aluFlags += (dataPath.getAcN() << 1)
         # aluFlags += (dataPath.alu.getC() << 2)
@@ -105,9 +106,9 @@ class ControlUnit:
             )
             dataPath.log_registers("Branch", self.tick)
             return True
-        
+
         return False
-    
+
 
     def executeMicroCode(self, dataPath: DataPath, mcode: int):
         #clear alu
@@ -130,12 +131,12 @@ class ControlUnit:
         elif ( mcode & 0x40):
             dataPath.alu.setLeftOperand(dataPath.IAR.getValue())
         elif ( mcode & 0x80):
-            dataPath.alu.setLeftOperand(dataPath.IR.getValue())   
+            dataPath.alu.setLeftOperand(dataPath.IR.getValue())
 
         #inverse operands
         if   ( mcode & 0x200 ):
             dataPath.alu.invLeftOperand()
-        
+
         if   ( mcode & 0x100 ):
             dataPath.alu.invRightOperand()
 
@@ -145,11 +146,11 @@ class ControlUnit:
         elif ( mcode & 0x800 ):
             dataPath.alu.conjuction()
 
-        #increment 
+        #increment
         if   ( mcode & 0x4000 ):
             dataPath.alu.inc()
 
-        #only 2 lower bytes 
+        #only 2 lower bytes
         if   ( mcode & 0x8000 ):
             dataPath.alu._2lb()
 
@@ -160,4 +161,4 @@ class ControlUnit:
             dataPath.alu.shrt()
 
 
-    
+

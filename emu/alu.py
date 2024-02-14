@@ -1,5 +1,5 @@
 class ALU:
-    
+
     def __init__(self):
         self.lop: int = 0
         self.rop: int = 0
@@ -42,20 +42,20 @@ class ALU:
 
     def shrt(self):
         self.c = self.out & 0x0001
-        self.out = self.out >> 1    
+        self.out = self.out >> 1
 
     def getZ(self) -> int:
         self.z = 1 if self.out == 0 else 0
         return self.z
-    
+
     def getN(self) -> int:
-        self.n = 1 if self.out & 0x8000 != 0 else 0 
+        self.n = 1 if self.out & 0x8000 != 0 else 0
         return self.n
-    
+
     def getC(self) -> int:
         self.c = 1 if self.out & 0x10000 != 0 else 0
         return self.c
-    
+
     def getV(self) -> int:
         self.v =     (self.out & 0x10000) >> 16 ^ (self.out & 0x4000) >> 12
         return self.v
