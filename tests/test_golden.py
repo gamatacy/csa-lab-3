@@ -14,9 +14,9 @@ def test_golden(golden, caplog):
     with open(golden["in_source"], encoding="utf-8") as code_source:
           try: 
             buff = golden["input"]
+            yaml_data= compile(code_source, buff)
           except:
-            buff = []
-          yaml_data= compile(code_source, buff)
+            yaml_data= compile(code_source)
     
 
     data = parse_yaml_data(yaml_data['data'])
