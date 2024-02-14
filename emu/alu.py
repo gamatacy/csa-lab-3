@@ -57,7 +57,7 @@ class ALU:
         return self.c
 
     def getV(self) -> int:
-        self.v =     (self.out & 0x10000) >> 16 ^ (self.out & 0x4000) >> 12
+        self.v = (self.out & 0x10000) >> 16 ^ (self.out & 0x4000) >> 12
         return self.v
 
     def _2lb(self):

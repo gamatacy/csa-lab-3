@@ -1,6 +1,6 @@
 import logging
 import pytest
-from compiler.compiler import compile
+from compiler.compiler import compile_lisp
 from emu.bl import parse_yaml_data,parse_yaml_input,parse_yaml_instructions
 from emu.soc import Soc
 
@@ -14,9 +14,9 @@ def test_golden(golden, caplog):
     with open(golden["in_source"], encoding="utf-8") as code_source:
           try: 
             buff = golden["input"]
-            yaml_data= compile(code_source, buff)
+            yaml_data= compile_lisp(code_source, buff)
           except:
-            yaml_data= compile(code_source)
+            yaml_data= compile_lisp(code_source)
     
 
     data = parse_yaml_data(yaml_data['data'])

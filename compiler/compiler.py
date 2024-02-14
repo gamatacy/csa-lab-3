@@ -3,8 +3,7 @@ from .parser import lisp_to_ast
 from .preprocessor import parse_includes
 
 
-def compile(input_file,buffer=""):
-
+def compile_lisp(input_file, buffer=""):
     code = input_file.read()
     code = parse_includes(code)
 
@@ -13,13 +12,12 @@ def compile(input_file,buffer=""):
     add_halt()
     iar = get_start_point()
 
-    input = buffer
+    buff = buffer
 
-    yaml_data = {
-        "start_addr" : iar,
-        "instructions": [{"instruction": inst.instruction.name,"op": inst.op, "addr" : hex(idx)} for idx, inst in enumerate(instructions)],
-        "data" : {key: value.__dict__ for key, value in data.items()},
-        "input" : input
-        }
-
-    return yaml_data
+    return {
+        "start_addr": iar,
+        "instructions": [{"instruction": inst.instruction.name, "op": inst.op, "addr": hex(idx)} for idx, inst in
+                         enumerate(instructions)],
+        "data": {key: value.__dict__ for key, value in data.items()},
+        "input": buff
+    }
