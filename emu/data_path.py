@@ -53,8 +53,7 @@ class DataPath:
         return 1 if self.AC.get_value() < 0 else 0
 
     def read_buffer(self, port: int) -> int:
-        val = ord(self.buffers[port].pop())
-        return val
+        return ord(self.buffers[port].pop())
 
     def write_buffer(self, port: int, value: int):
         return self.buffers[port].append(chr(value))

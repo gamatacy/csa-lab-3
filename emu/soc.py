@@ -1,5 +1,5 @@
-from emu.сontrolUnit import ControlUnit
-from emu.dataPath import DataPath
+from emu.control_unit import ControlUnit
+from emu.data_path import DataPath
 
 
 class Soc:

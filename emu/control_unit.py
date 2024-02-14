@@ -1,4 +1,4 @@
-from emu.dataPath import DataPath
+from emu.data_path import DataPath
 from emu.instruction import Instruction, OpCodes
 
 
@@ -9,16 +9,16 @@ class ControlUnit:
 
     def runclk(self, data_path: DataPath):
         instruction: Instruction
-        rawInstruction: int
+        raw_instruction: int
 
         while True:
-            rawInstruction = data_path.instructionMemory.get_value(
+            raw_instruction = data_path.instructionMemory.get_value(
                 data_path.IAR.get_value()
             )
 
-            data_path.IR.set_value(rawInstruction)
+            data_path.IR.set_value(raw_instruction)
 
-            instruction = OpCodes[(rawInstruction >> 24)]
+            instruction = OpCodes[(raw_instruction >> 24)]
 
             if self.execute_instruction(data_path, instruction):
                 break
@@ -48,38 +48,38 @@ class ControlUnit:
             data_path.log_registers(instruction.name, self.tick)
             self.tick += 1
 
-    def execute_operation_microcode(self, dataPath: DataPath, mcode: int):
-        self.execute_micro_code(dataPath, mcode)
+    def execute_operation_microcode(self, data_path: DataPath, mcode: int):
+        self.execute_micro_code(data_path, mcode)
 
         # save alu output to registers
         for offset in range(7):
             if mcode & (0x10000 << offset):
-                dataPath.mappedRegister[offset].set_value(dataPath.alu.get_output())
+                data_path.mappedRegister[offset].set_value(data_path.alu.get_output())
 
-        if mcode & 0x7800000 and (dataPath.IR.get_value() & 0x1FFFF) and (dataPath.IR.get_value() >> 24) != 0x10:
-            dataPath.AR.set_value(
-                dataPath.IR.get_value() & 0xFFFF
+        if mcode & 0x7800000 and (data_path.IR.get_value() & 0x1FFFF) and (data_path.IR.get_value() >> 24) != 0x10:
+            data_path.AR.set_value(
+                data_path.IR.get_value() & 0xFFFF
             )
 
         if mcode & 0x800000:
-            dataPath.DR.set_value(
-                dataPath.dataMemory.get_value(
-                    dataPath.AR.get_value()
+            data_path.DR.set_value(
+                data_path.dataMemory.get_value(
+                    data_path.AR.get_value()
                 )
             )
         elif mcode & 0x1000000:
-            dataPath.dataMemory.set_value(
-                dataPath.AR.get_value(),
-                dataPath.DR.get_value()
+            data_path.dataMemory.set_value(
+                data_path.AR.get_value(),
+                data_path.DR.get_value()
             )
         elif mcode & 0x2000000:
-            dataPath.DR.set_value(
-                dataPath.read_buffer(dataPath.AR.get_value())
+            data_path.DR.set_value(
+                data_path.read_buffer(data_path.AR.get_value())
             )
         elif mcode & 0x4000000:
-            dataPath.write_buffer(dataPath.AR.get_value(),
-                                  dataPath.AC.get_value()
-                                  )
+            data_path.write_buffer(data_path.AR.get_value(),
+                                   data_path.AC.get_value()
+                                   )
 
     def execute_control_micro_code(self, data_path: DataPath, mcode: int) -> bool:
         self.execute_micro_code(data_path, mcode)
@@ -89,8 +89,6 @@ class ControlUnit:
 
         alu_flags: int = data_path.get_ac_z()
         alu_flags += (data_path.get_ac_n() << 1)
-        # alu_flags += (dataPath.alu.getC() << 2)
-        # alu_flags += (dataPath.alu.getV() << 3)
 
         if flags_mask == alu_flags and not_flags_masks == 0 or flags_mask == 0 and not_flags_masks != alu_flags:
             data_path.IAR.set_value(
