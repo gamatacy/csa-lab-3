@@ -26,12 +26,10 @@ class ControlUnit:
     def execute_instruction(self, data_path: DataPath, instruction: Instruction):
 
         if instruction is Instruction.NOP:
-            # print("NOP")
             data_path.mem_dump()
             return True
 
         if instruction is Instruction.HLT:
-            # print("\nHALT")
             data_path.mem_dump()
             data_path.buff_dump()
             return True
@@ -81,7 +79,7 @@ class ControlUnit:
                                    data_path.AC.get_value()
                                    )
 
-    def execute_control_micro_code(self, data_path: DataPath, mcode: int) -> bool:
+    def execute_control_micro_code(self, data_path: DataPath, mcode: int):
         self.execute_micro_code(data_path, mcode)
 
         flags_mask: int = (mcode & 0x0F0000) >> 16
@@ -95,9 +93,6 @@ class ControlUnit:
                 data_path.IAR.get_value() + 1
             )
             data_path.log_registers("Branch", self.tick)
-            return True
-
-        return False
 
     def execute_micro_code(self, data_path: DataPath, mcode: int):
         # clear alu
