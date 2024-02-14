@@ -28,8 +28,6 @@ def parse_yaml_instructions(instr_section):
 
         instructions[idx] = instruction
 
-
-
     return instructions
 
 def parse_yaml_input(input):
