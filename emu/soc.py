@@ -1,5 +1,5 @@
-from emu.ControlUnit import ControlUnit
-from emu.DataPath import DataPath
+from emu.сontrolUnit import ControlUnit
+from emu.dataPath import DataPath
 
 
 class Soc:
@@ -8,12 +8,12 @@ class Soc:
         pass
 
     def run(self, start_addr: int, instructions: [int], data: [int], buffer: [int]):
-        dataPath = DataPath()
-        controlUnit = ControlUnit()
+        data_path = DataPath()
+        control_unit = ControlUnit()
 
-        dataPath.IAR.setValue(start_addr)
-        dataPath.dataMemory.memory = data
-        dataPath.instructionMemory.memory = instructions
-        dataPath.buffers[735] = buffer
+        data_path.IAR.set_value(start_addr)
+        data_path.dataMemory.memory = data
+        data_path.instructionMemory.memory = instructions
+        data_path.buffers[735] = buffer
 
-        controlUnit.runclk(dataPath)
+        control_unit.runclk(data_path)

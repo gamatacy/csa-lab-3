@@ -17,8 +17,8 @@ SP_TO_AR = 0x00080402
 MEM_TO_DR = 0x00800000
 INC_IAR = 0x00404440
 
-class Instruction(Enum):
 
+class Instruction(Enum):
     PUSH = (
         0x00020602,
         SP_TO_AR,
@@ -46,7 +46,7 @@ class Instruction(Enum):
         INC_IAR
     )
 
-    #load from address in acc
+    # load from address in acc
     LDAC = (
         AC_TO_AR,
         MEM_TO_DR,
@@ -77,7 +77,7 @@ class Instruction(Enum):
         INC_IAR
     )
 
-    #set addr from acc
+    # set addr from acc
     STAC = (
         AC_TO_AR,
         INC_IAR
@@ -180,32 +180,33 @@ class Instruction(Enum):
         0x40000000
     )
 
+
 OpCodes = {
-    0x0 : Instruction.NOP,
-    0x1 : Instruction.LD,
-    0x2 : Instruction.HLT,
-    0x3 : Instruction.PUSH,
-    0x4 : Instruction.POP,
-    0x5 : Instruction.ST,
-    0x6 : Instruction.JMP,
-    0x7 : Instruction.ROL,
-    0x8 : Instruction.ROR,
-    0x9 : Instruction.ADD,
-    0xA : Instruction.SUB,
-    0xB : Instruction.JZ,
-    0xC : Instruction.JN,
-    0xD : Instruction.JC,
-    0xE : Instruction.LDBF,
-    0xF : Instruction.STBF,
-    0x10 : Instruction.CALL,
-    0x11 : Instruction.LDI,
-    0x12 : Instruction.BSTI,
-    0x13 : Instruction.STBR,
-    0x14 : Instruction.AND,
-    0x20 : Instruction.RET,
-    0x21 : Instruction.JNN,
-    0x22 : Instruction.JNZ,
-    0x30 : Instruction.LDC,
-    0x40 : Instruction.LDAC,
-    0x80 : Instruction.STAC,
+    0x0: Instruction.NOP,
+    0x1: Instruction.LD,
+    0x2: Instruction.HLT,
+    0x3: Instruction.PUSH,
+    0x4: Instruction.POP,
+    0x5: Instruction.ST,
+    0x6: Instruction.JMP,
+    0x7: Instruction.ROL,
+    0x8: Instruction.ROR,
+    0x9: Instruction.ADD,
+    0xA: Instruction.SUB,
+    0xB: Instruction.JZ,
+    0xC: Instruction.JN,
+    0xD: Instruction.JC,
+    0xE: Instruction.LDBF,
+    0xF: Instruction.STBF,
+    0x10: Instruction.CALL,
+    0x11: Instruction.LDI,
+    0x12: Instruction.BSTI,
+    0x13: Instruction.STBR,
+    0x14: Instruction.AND,
+    0x20: Instruction.RET,
+    0x21: Instruction.JNN,
+    0x22: Instruction.JNZ,
+    0x30: Instruction.LDC,
+    0x40: Instruction.LDAC,
+    0x80: Instruction.STAC,
 }

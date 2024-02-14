@@ -13,27 +13,29 @@ def parse_yaml_data(data_section: str):
             data[value["addr"]] += ord("\0")
     return data
 
+
 def parse_yaml_instructions(instr_section):
     instructions = [0] * 2048
     for idx, item in enumerate(instr_section):
         instruction = 0
         opcode = 0
 
-        for k,v in OpCodes.items():
+        for k, v in OpCodes.items():
             if v == Instruction[item["instruction"]]:
                 opcode = k
                 break
 
-        instruction = ( 0x0000 | opcode ) << 24
+        instruction = (0x0000 | opcode) << 24
         instruction |= item["op"]
 
         instructions[idx] = instruction
 
     return instructions
 
-def parse_yaml_input(input):
+
+def parse_yaml_input(buffer):
     buff = []
     buff.append("\0")
-    for i in range(len(input)-1,-1,-1):
-        buff.append(input[i])
+    for i in range(len(buffer) - 1, -1, -1):
+        buff.append(buffer[i])
     return buff
