@@ -74,12 +74,12 @@ class ControlUnit:
             )
         elif mcode & 0x2000000:
             dataPath.DR.set_value(
-                dataPath.readBuffer(dataPath.AR.get_value())
+                dataPath.read_buffer(dataPath.AR.get_value())
             )
         elif mcode & 0x4000000:
-            dataPath.writeBuffer(dataPath.AR.get_value(),
-                                 dataPath.AC.get_value()
-                                 )
+            dataPath.write_buffer(dataPath.AR.get_value(),
+                                  dataPath.AC.get_value()
+                                  )
 
     def execute_control_micro_code(self, data_path: DataPath, mcode: int) -> bool:
         self.execute_micro_code(data_path, mcode)
@@ -87,8 +87,8 @@ class ControlUnit:
         flags_mask: int = (mcode & 0x0F0000) >> 16
         not_flags_masks: int = (mcode & 0x300000) >> 20
 
-        alu_flags: int = data_path.getAcZ()
-        alu_flags += (data_path.getAcN() << 1)
+        alu_flags: int = data_path.get_ac_z()
+        alu_flags += (data_path.get_ac_n() << 1)
         # alu_flags += (dataPath.alu.getC() << 2)
         # alu_flags += (dataPath.alu.getV() << 3)
 
