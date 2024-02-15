@@ -134,11 +134,11 @@ python -m compiler <input.lsp> <output.yaml> <input>
 | 0x13   | STBR        |         |  AC -> BR |
 | 0x14   | AND         |   ADDR  |   AC & MEM[ADDR] |
 | 0x20   | RET         |         |  SP -> IAR |
-| 0x20   | JNN         |         |  IF NOT FLAG.N, IAR+1 |
-| 0x20   | JNZ         |         |  IF NOT FLAG.Z, IAR+1  |
-| 0x20   | LDC         |  CONST  |  CONST -> AC |
-| 0x20   | LDAC        |         |  AC -> AR, MEM[AR] -> AC |
-| 0x20   | STAC        |         |  AC -> AR |
+| 0x21   | JNN         |         |  IF NOT FLAG.N, IAR+1 |
+| 0x22   | JNZ         |         |  IF NOT FLAG.Z, IAR+1  |
+| 0x30   | LDC         |  CONST  |  CONST -> AC |
+| 0x40   | LDAC        |         |  AC -> AR, MEM[AR] -> AC |
+| 0x80   | STAC        |         |  AC -> AR |
 
 
 ### Кодирование инструкций
