@@ -102,13 +102,9 @@ python -m compiler <input.lsp> <output.yaml> <input>
 | Byte | Description   |
 |------|---------------|
 | 0    | Operand       |
-| 1    | Operand       |
-| 2    | Operand       |
-| 3    | Operand       |
-| 4    | Operand         (Only 1 lower bit)  |
-| 5    |               |
-| 6    | OpCode        |
-| 7    | OpCode        |
+| 1    | Operand         (Only 1 lower bit)  |
+| 2    | ]             |
+| 3    | OpCode        |
 
 | Opcode | Instruction | Operand | Description |
 |--------|-------------|---------|-------------|
