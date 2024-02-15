@@ -254,3 +254,21 @@ start_addr: 415
 | 30 |             |
 | 31 | 1           |
 ```
+
+
+## Data Path
+
+![datapath](pics/dp.drawio.png)
+
+## Control Unit
+
+![controlunit](pics/cu.drawio.png)
+
+## Статистика по задачам
+
+```
+| ФИО          | алг             | LoC | code байт | code инстр. | инстр. | такт.  |
+| Воронин Иван | hello           | 3   | -         | 418         | 285    | 859    |
+| Воронин Иван | cat             | 3   | -         | 421         | 727    | 2193   |
+| Воронин Иван | hello_user_name | 9   | -         | 430         | 885    | 2691   |
+```

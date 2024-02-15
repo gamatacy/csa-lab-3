@@ -10,7 +10,7 @@ class ControlUnit:
     def runclk(self, data_path: DataPath):
         instruction: Instruction
         raw_instruction: int
-
+        
         while True:
             raw_instruction = data_path.instructionMemory.get_value(
                 data_path.IAR.get_value()

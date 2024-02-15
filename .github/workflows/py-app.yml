@@ -48,4 +48,4 @@ jobs:
     - name: Run tests
       run: |
         poetry run pytest ./tests -v
-    needs: lint
+    # needs: lint
